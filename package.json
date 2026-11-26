@@ -1,0 +1,7 @@
+{
+  "name": "subquadratic-research-universe",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npx serve@14 . --listen $PORT"
+  }
+}

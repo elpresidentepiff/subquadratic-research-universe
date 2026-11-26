@@ -1,0 +1,1062 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sub-Quadratic — Research Universe</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg0:#060A0F;--bg1:#0C1219;--bg2:#111820;--bg3:#1A2433;--fg0:#E8E2D6;--fg1:#B8B0A4;--fg2:#7A7570;--acc:#C8982A;--pos:#4A9C72;--neg:#C45548;--bdr:rgba(200,152,42,.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg0);color:var(--fg0);font-family:Inter,sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(6,10,15,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);padding:0 24px;display:flex;align-items:center;gap:0;overflow-x:auto;height:52px}
+.logo{font-family:Cormorant,serif;font-size:16px;font-weight:700;color:var(--acc);letter-spacing:.08em;text-transform:uppercase;margin-right:28px;white-space:nowrap;flex-shrink:0}
+.tbtn{background:none;border:none;color:var(--fg2);font-family:JetBrains\ Mono,monospace;font-size:11px;font-weight:500;letter-spacing:.08em;padding:0 14px;height:52px;cursor:pointer;white-space:nowrap;transition:color .2s;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.tbtn:hover{color:var(--fg0)}
+.tbtn.on{color:var(--acc);border-bottom:2px solid var(--acc)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--pos);display:inline-block}
+.panel{display:none;padding:20px 0 60px;max-width:900px;margin:0 auto;padding-left:24px;padding-right:24px}
+.panel.on{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* hero */
+.hero{padding:40px 0 32px;border-bottom:1px solid var(--bdr);margin-bottom:32px}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.htick{font-family:Cormorant,serif;font-size:52px;font-weight:700;line-height:1;letter-spacing:-.01em}
+.hname{font-size:13px;color:var(--fg1);font-weight:400;margin-top:4px;letter-spacing:.04em;text-transform:uppercase}
+.hbadge{display:inline-block;padding:4px 12px;border-radius:2px;font-family:JetBrains\ Mono,monospace;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:12px}
+.hbadge.a{background:rgba(74,156,114,.12);color:var(--pos);border:1px solid rgba(74,156,114,.3)}
+.hbadge.w{background:rgba(122,117,112,.1);color:var(--fg2);border:1px solid rgba(122,117,112,.2)}
+.stats{display:flex;gap:24px;flex-wrap:wrap;margin-top:24px}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat-v{font-family:JetBrains\ Mono,monospace;font-size:16px;font-weight:500;color:var(--fg0)}
+.stat-l{font-size:10px;color:var(--fg2);letter-spacing:.08em;text-transform:uppercase}
+/* section */
+.sec{margin-bottom:28px;border:1px solid var(--bdr);border-radius:4px;overflow:hidden}
+.sec-hd{padding:14px 20px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px;background:var(--bg1)}
+.sec-num{font-family:JetBrains\ Mono,monospace;font-size:10px;color:var(--fg2);letter-spacing:.1em}
+.sec-title{font-family:Cormorant,serif;font-size:18px;font-weight:600;color:var(--fg0)}
+.sec-body{padding:20px}
+p{color:var(--fg1);line-height:1.75;margin-bottom:12px;font-size:13.5px}
+p:last-child{margin-bottom:0}
+/* table */
+table{width:100%;border-collapse:collapse;margin-top:4px}
+th{font-family:JetBrains\ Mono,monospace;font-size:10px;color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:8px 12px;border-bottom:1px solid var(--bdr);font-weight:500}
+td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;color:var(--fg1)}
+td:first-child{color:var(--fg0);font-weight:500}
+tr:last-child td{border-bottom:none}
+/* pillars */
+.pils{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.pils{grid-template-columns:1fr}}
+.pil{background:var(--bg2);border:1px solid var(--bdr);border-radius:4px;padding:16px}
+.pil-t{font-family:Cormorant,serif;font-size:16px;font-weight:600;color:var(--fg0);margin-bottom:6px}
+.pil-b{font-size:12.5px;color:var(--fg1);line-height:1.6}
+/* posture */
+.pos-row{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.pos-box{flex:1;min-width:140px;background:var(--bg2);border:1px solid var(--bdr);border-radius:4px;padding:14px}
+.pos-box.a{border-color:rgba(74,156,114,.4);background:rgba(74,156,114,.06)}
+.pos-lbl{font-family:JetBrains\ Mono,monospace;font-size:9px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.pos-val{font-family:Cormorant,serif;font-size:18px;font-weight:600;color:var(--fg0)}
+.pos-val.a{color:var(--pos)}
+/* catalysts */
+.cats{display:flex;flex-direction:column;gap:8px}
+.cat{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;background:var(--bg2);border-radius:3px;border-left:2px solid var(--acc)}
+.cat-y{font-family:JetBrains\ Mono,monospace;font-size:10px;color:var(--acc);font-weight:500;white-space:nowrap;margin-top:2px;min-width:36px}
+.cat-t{font-size:13px;color:var(--fg0);font-weight:500}
+.cat-d{font-size:12px;color:var(--fg1);margin-top:2px;line-height:1.5}
+footer{text-align:center;padding:32px 24px;color:var(--fg2);font-size:11px;letter-spacing:.05em;border-top:1px solid var(--bdr)}
+
+/* Extra classes for QNT deep sections */
+.up{color:var(--pos)!important}.dn{color:var(--neg)!important}.dim{color:var(--fg2)!important}.w1{color:var(--fg0)!important}
+.r{text-align:right!important}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bdr);border:1px solid var(--bdr);margin-bottom:1px}
+.fr:last-of-type{margin-bottom:0}
+.fl{background:var(--bg1);padding:12px 16px;font-size:12.5px;color:var(--fg1)}
+.fv{background:var(--bg2);padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--fg0)}
+.fv.flag{color:var(--acc)}.fv.warn{color:var(--neg)}
+.sc-grid{display:grid;gap:1px;background:var(--bdr);border:1px solid var(--bdr)}
+.sc-row{display:grid;grid-template-columns:1.2fr 1.5fr 1.5fr;gap:1px;background:var(--bdr)}
+@media(max-width:600px){.sc-row{grid-template-columns:1fr}}
+.sc-cell{background:var(--bg1);padding:14px 16px;font-size:12.5px;color:var(--fg1)}
+.sc-cell.hd{background:var(--bg0);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);padding:8px 16px}
+.sc-cell strong{color:var(--fg0);display:block;font-weight:500;font-size:12.5px;margin-bottom:4px}
+.mt-tbl{width:100%;border-collapse:collapse}
+.mt-tbl th{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--fg2);text-align:left;padding-bottom:10px;border-bottom:1px solid var(--bdr);font-weight:500}
+.mt-tbl td{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12.5px;vertical-align:top}
+.mt-tbl td:first-child{color:var(--fg0);font-weight:500;width:200px;padding-right:20px}
+.mt-tbl td:last-child{color:var(--fg1)}
+.posture-blk{background:var(--bg2);border:1px solid var(--bdr);padding:28px 28px;margin-top:20px}
+.posture-pill{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:2px;background:rgba(200,152,42,.12);border:1px solid rgba(200,152,42,.3);color:var(--acc)}
+.posture-quote{font-family:Cormorant,serif;font-size:clamp(1.1rem,2vw,1.5rem);font-weight:600;font-style:italic;color:var(--fg0);line-height:1.4;max-width:52ch;margin:12px 0}
+.callout{border-left:2px solid var(--acc);background:rgba(200,152,42,.08);padding:14px 18px;margin:16px 0;font-size:12.5px;line-height:1.65;color:var(--fg0)}
+.callout strong{color:var(--fg0);font-weight:600}
+.ri-row{display:grid;grid-template-columns:12px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.ri-row:last-child{border-bottom:none}
+.ri-dot2{width:5px;height:5px;border-radius:50%;background:var(--neg);margin-top:6px}
+.ri-txt{font-size:12.5px;line-height:1.6;color:var(--fg1)}
+.ri-txt strong{color:var(--fg0);font-weight:500}
+/* ── FlexCarousel ── */
+.flex-carousel{position:relative;width:100%;height:100%;overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:contain;outline:none}
+.flex-carousel[data-hover='open']{cursor:zoom-in}
+.flex-carousel[data-hover='close']{cursor:zoom-out}
+.flex-carousel[data-dragging]{cursor:grabbing}
+.flex-carousel:focus-visible{box-shadow:inset 0 0 0 2px rgba(200,152,42,.4)}
+.flex-carousel__caption{position:absolute;left:0;right:0;top:calc(50% + var(--flex-carousel-half)*var(--flex-carousel-lift,1) + 18px);display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 16px;pointer-events:none;text-align:center;animation:fc-reveal 900ms ease both}
+.flex-carousel__title{display:flex;flex-direction:column;align-items:center;max-width:100%;font-family:Cormorant,serif;font-size:26px;font-weight:700;line-height:1.15;animation:fc-title 520ms cubic-bezier(.22,1,.36,1);color:var(--fg0);letter-spacing:.02em}
+.flex-carousel__subtitle{font-family:'JetBrains Mono',monospace;font-weight:400;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg2);margin-top:2px}
+.flex-carousel__count{display:inline-flex;align-items:center;gap:3px;font-size:10px;line-height:1;font-variant-numeric:tabular-nums;opacity:.35;transition:opacity 400ms ease;font-family:'JetBrains Mono',monospace;color:var(--fg2);margin-top:2px}
+.flex-carousel__count[data-hidden]{opacity:0}
+.flex-carousel__digits{display:inline-flex}
+.flex-carousel__digit{display:inline-block;height:1em;overflow:hidden}
+.flex-carousel__reel{display:flex;flex-direction:column;transition:transform 600ms cubic-bezier(.22,1,.36,1)}
+.flex-carousel__reel span{height:1em}
+.flex-carousel__slash{opacity:.45;margin:0 1px}
+.flex-carousel__live{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#carousel-wrap{height:430px;padding-top:52px;background:var(--bg0);position:relative;border-bottom:1px solid var(--bdr)}
+#carousel-root{height:100%}
+@keyframes fc-title{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fc-reveal{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.flex-carousel__caption,.flex-carousel__title{animation:none}.flex-carousel__reel{transition:none}}
+#carousel-logo-wrap{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);z-index:20;pointer-events:none}
+#carousel-logo-img{width:84px;height:84px;border-radius:50%;object-fit:contain;background:rgba(0,0,0,.35);border:1.5px solid rgba(255,255,255,.13);padding:10px;display:block;transition:opacity .25s ease;box-shadow:0 4px 28px rgba(0,0,0,.55)}
+#carousel-logo-img.fc-logo-out{opacity:0}
+</style>
+
+<nav>
+<span class="logo">Sub&#8209;Quadratic</span>
+<button class="tbtn on" data-t="qnt"><span class="dot"></span>QNT</button>
+<button class="tbtn" data-t="sol">SOL</button>
+<button class="tbtn" data-t="link">LINK</button>
+<button class="tbtn" data-t="hbar">HBAR</button>
+<button class="tbtn" data-t="sui">SUI</button>
+<button class="tbtn" data-t="xlm">XLM</button>
+<button class="tbtn" data-t="xdc">XDC</button>
+<button class="tbtn" data-t="hype">HYPE</button>
+<button class="tbtn" data-t="canton">CANTON</button>
+</nav>
+
+<div id="carousel-wrap"><div id="carousel-root"></div><div id="carousel-logo-wrap"><img id="carousel-logo-img" alt=""></div></div>
+
+<!-- QNT -->
+<div class="panel on" id="p-qnt">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#C8982A">QNT</div>
+<div class="hname">Quant Network — Overledger &amp; Fusion Rollup</div>
+<div class="hbadge a"><span class="dot"></span> Position Open</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">$149.00</span><span class="stat-l">QNT/USD · 20 Nov 2026</span></div>
+<div class="stat"><span class="stat-v">$2.17B</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">14.556M</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">14.612M</span><span class="stat-l">Max Supply (post-burn)</span></div>
+<div class="stat"><span class="stat-v">$58M</span><span class="stat-l">24h Volume</span></div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive Investment View</span></div>
+<div class="sec-body">
+<p>Quant is positioned in a part of the digital-asset market that matters to institutional adoption: interoperability between regulated financial institutions, existing payment systems, and multiple public or private ledgers. The investment case is not that one blockchain wins. It is that banks, payment networks, asset managers and corporates will operate across several ledgers and need secure orchestration, settlement and compliance between them.</p>
+<p>Quant's product stack addresses that problem through Overledger and the Fusion Rollup — moving from an interoperability proposition into an institutional execution environment. In September 2026, The Clearing House selected Quant technology for its On-Chain Money Initiative, intended to support clearing and settlement of tokenised deposits and connect with existing US payment rails, including RTP and CHIPS.</p>
+<div class="callout"><strong>Central thesis:</strong> As money and financial assets become programmable and tokenised, the infrastructure that connects fragmented ledgers to regulated financial markets can become strategically important. Quant is a credible company-level contender in that layer. QNT is the associated digital asset — but its investment case must be underwritten separately from the quality of the company and its partnerships.</div>
+<p>The financial system is not going to become one blockchain. It is becoming a network of banks, payment systems, tokenised deposits, stablecoins, securities ledgers and regulated digital-asset venues. Those systems need to communicate, coordinate and settle with one another. Quant is positioning itself in that connective tissue.</p>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<div class="pils">
+<div class="pil"><div class="pil-t">Structural market need</div><div class="pil-b">Financial institutions are moving toward tokenised deposits, stablecoins and digital securities, creating demand for connectivity between fragmented systems. This is infrastructure demand, not speculative adoption.</div></div>
+<div class="pil"><div class="pil-t">Infrastructure position</div><div class="pil-b">Overledger and Fusion Rollup move Quant from message translation to multi-ledger execution and asset coordination across 74 connected networks.</div></div>
+<div class="pil"><div class="pil-t">Institutional validation</div><div class="pil-b">Project Rosalind (BIS/Bank of England), Dentsu Soken and The Clearing House selection provide evidence of engagement in serious institutional programmes. These are not logo relationships.</div></div>
+<div class="pil"><div class="pil-t">Product progression</div><div class="pil-b">Fusion Rollup mainnet represents a step from interoperability messaging toward multi-ledger execution. If institutions adopt it for production workflows, Quant occupies a more embedded position in financial-market infrastructure.</div></div>
+<div class="pil"><div class="pil-t">Constrained supply + expanding utility</div><div class="pil-b">Fixed supply of 14.612M post-burn. If QNT functions become essential to production usage, token demand could become more closely linked to network activity.</div></div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Institutional Evidence</span></div>
+<div class="sec-body">
+<table>
+<tr><th>Programme</th><th>Partner</th><th>Status</th><th>Significance</th></tr>
+<tr><td>On-Chain Money Initiative</td><td>The Clearing House</td><td class="up">Selected Sep 2026</td><td>Clearing/settlement of tokenised deposits; RTP &amp; CHIPS connectivity. Network H1 2027.</td></tr>
+<tr><td>Project Rosalind</td><td>BIS / Bank of England</td><td class="dim">Concluded 2023</td><td>Retail CBDC API exploration. Concluded experiment — not a commercial deployment.</td></tr>
+<tr><td>Fusion Rollup Mainnet</td><td>Quant Network</td><td class="up">Live 2026</td><td>74 networks connected. Production volume &amp; QNT gas demand unverified by committee.</td></tr>
+<tr><td>Dentsu Soken Partnership</td><td>Dentsu Soken / Japan</td><td style="color:var(--acc)">Watch</td><td>Japanese institutional tokenised deposits and stablecoin infrastructure. Jan 2026.</td></tr>
+<tr><td>Swift Tokenised Deposits</td><td>Swift — 17 banks</td><td style="color:var(--neg)">Competitor</td><td>Live cross-border tokenised deposit transactions Aug 2026. Active competition, not a dying incumbent.</td></tr>
+</table>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Valuation Framework — Market Cap Sensitivity</span></div>
+<div class="sec-body">
+<div class="callout">Working denominator: <strong>14,544,176 circulating QNT</strong> (Blockworks/Etherscan, Jul 2026). Spot: $149.00 (CoinGecko, 20 Nov 2026). Arithmetic only — not forecasts. Each $1B market cap = <strong>$68.76 per QNT</strong>. All % vs $149.00.</div>
+<div style="overflow-x:auto">
+<table>
+<tr><th>Market Cap</th><th class="r">Implied QNT</th><th class="r">vs $149.00</th><th class="r">Multiple</th></tr>
+<tr><td>$1.0 billion</td><td class="r dim">$68.76</td><td class="r dn">−53.9%</td><td class="r dim">0.46×</td></tr>
+<tr style="background:rgba(200,152,42,.06)"><td style="color:var(--acc)">$2.17 billion — Current</td><td class="r" style="color:var(--acc)">$149.00</td><td class="r dim">—</td><td class="r dim">1.00×</td></tr>
+<tr><td>$2.5 billion</td><td class="r w1">$171.89</td><td class="r up">+15.4%</td><td class="r dim">1.15×</td></tr>
+<tr><td>$5.0 billion</td><td class="r w1">$343.78</td><td class="r up">+130.7%</td><td class="r dim">2.31×</td></tr>
+<tr><td>$7.5 billion</td><td class="r w1">$515.67</td><td class="r up">+246.1%</td><td class="r dim">3.46×</td></tr>
+<tr><td>$10 billion</td><td class="r w1">$687.56</td><td class="r up">+361.4%</td><td class="r dim">4.62×</td></tr>
+<tr><td>$15 billion</td><td class="r w1">$1,031.34</td><td class="r up">+592.2%</td><td class="r dim">6.92×</td></tr>
+<tr><td>$20 billion</td><td class="r w1">$1,375.12</td><td class="r up">+822.9%</td><td class="r dim">9.23×</td></tr>
+</table>
+</div>
+<p style="margin-top:10px;font-size:11px;color:var(--fg2);font-family:'JetBrains Mono',monospace">Formula: implied price = target market cap ÷ 14,544,176 QNT · excludes fees, slippage, taxes</p>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Supply Architecture — Phase IV Audit</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Post-burn total supply</div><div class="fv">14,612,493.08 QNT</div></div>
+<div class="fr"><div class="fl">Circulating supply (Blockworks filing, Jul 2026)</div><div class="fv">14,544,176 QNT</div></div>
+<div class="fr"><div class="fl">Circulating supply (CoinGecko, 20 Nov 2026)</div><div class="fv">14,556,178 QNT</div></div>
+<div class="fr"><div class="fl">Token contract balance — no apparent transfer path</div><div class="fv flag">~9,550,897 QNT</div></div>
+<div class="fr"><div class="fl">Supply regime</div><div class="fv">Fixed — no protocol emissions identified</div></div>
+<div class="fr"><div class="fl">Unresolved discrepancy (mint-event reconstruction)</div><div class="fv flag">~267,869 QNT above reported total</div></div>
+<div class="fr"><div class="fl">CoinMarketCap displayed figure</div><div class="fv warn">~12.07M — do not use as base case</div></div>
+<p style="font-size:11px;color:var(--fg2);margin-top:14px;font-family:'JetBrains Mono',monospace">HOLDER CONCENTRATION</p>
+<div class="fr" style="margin-top:8px"><div class="fl">Top 10 non-contract wallets</div><div class="fv flag">~3.576M QNT · 24.5% of supply</div></div>
+<div class="fr"><div class="fl">Top 3 non-contract wallets</div><div class="fv flag">~1.655M QNT · 11.3% of supply</div></div>
+<div class="fr"><div class="fl">Two largest wallets (symmetric balance)</div><div class="fv flag">600,000 QNT each — common-control check required</div></div>
+<div class="fr"><div class="fl">Beneficial owner attribution</div><div class="fv warn">Not established — all unlabelled</div></div>
+<div class="fr"><div class="fl">Exchange-labelled holdings (top 50)</div><div class="fv">~1,426,636 QNT · 9.76% — lower bound only</div></div>
+<div class="callout" style="margin-top:16px">The ~9.55M token contract balance supports the scarcity argument, subject to independent smart-contract verification. Address-level concentration is significant. The two 600k wallets merit common-control analysis. Exchange balances are <strong>not</strong> the same as available sell-side float.</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid">
+<div class="sc-row"><div class="sc-cell hd">Scenario</div><div class="sc-cell hd">What happens</div><div class="sc-cell hd">Implication for Quant</div></div>
+<div class="sc-row">
+<div class="sc-cell"><strong>Multi-network coexistence</strong>Swift, domestic rails, bank ledgers and public chains remain separate; interoperability demand rises</div>
+<div class="sc-cell" style="color:var(--pos)">Attractive opportunity if Quant wins cross-system production workflows</div>
+<div class="sc-cell" style="color:var(--pos)">Best case — differentiation from Swift validated</div>
+</div>
+<div class="sc-row">
+<div class="sc-cell"><strong>Incumbent-led consolidation</strong>Swift and major market infrastructures extend their own ledgers</div>
+<div class="sc-cell" style="color:var(--acc)">Quant must prove unique capability; risk of becoming niche supplier</div>
+<div class="sc-cell" style="color:var(--acc)">Viable but margin and scale under pressure</div>
+</div>
+<div class="sc-row">
+<div class="sc-cell"><strong>Specialist infrastructure</strong>Banks use several specialist providers for different layers</div>
+<div class="sc-cell" style="color:var(--acc)">Quant can win a valuable layer, but must defend integrations</div>
+<div class="sc-cell" style="color:var(--acc)">Depends on switching-cost depth</div>
+</div>
+<div class="sc-row">
+<div class="sc-cell"><strong>Fragmented adoption</strong>Pilots proliferate but production remains slow and low-volume</div>
+<div class="sc-cell" style="color:var(--neg)">Company opportunity and QNT demand disappoint despite narrative</div>
+<div class="sc-cell" style="color:var(--neg)">Bear case — current valuation hard to justify</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Token bypass:</strong> customers can predominantly pay in fiat without creating durable QNT demand. Enterprise software adoption does not automatically force open-market QNT purchases — Quant's FAQ explicitly permits USD payment.</div></div>
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Fusion adoption remains immaterial:</strong> announced 74-network connectivity does not translate into production transaction volume, active institutional customers or measurable QNT gas demand independently verifiable on-chain.</div></div>
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Clearing House announcement doesn't progress:</strong> selection does not advance to operational deployment in H1 2027, or Quant's role proves peripheral to actual transaction economics and customer count.</div></div>
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Swift wins the institutional standard:</strong> demonstrated live tokenised-deposit transactions and 17-bank pilot programme give Swift credibility and distribution that may capture the same workflows with less integration friction.</div></div>
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Concentration misleads on scarcity:</strong> beneficial ownership of large unlabelled wallets, undisclosed insider positions, or thin executable order-book depth makes apparent supply scarcity misleading at realistic position sizes.</div></div>
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Valuation already discounts unproven adoption:</strong> at ~$2.1B market cap, the upside case must be built on measurable deployment evidence. "Low supply" is not a thesis; it is a denominator.</div></div>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl">
+<tr><th>Catalyst</th><th>Why it strengthens the position</th></tr>
+<tr><td>Clearing House goes live — H1 2027</td><td>The single most important near-term event. Named banks transacting live through Quant's layer connected to RTP and CHIPS validates the entire infrastructure thesis in one announcement.</td></tr>
+<tr><td>Fusion gas demand confirmed on-chain</td><td>When QNT-denominated fees and staking lock-ups are independently visible in deployed contracts, the token's economic necessity stops being a company description and becomes a verifiable fact.</td></tr>
+<tr><td>Second major institutional selection</td><td>A second payment network, central bank or Tier 1 bank choosing Quant for a live programme establishes pattern. One selection is a proof point; two is a track record worth pricing in.</td></tr>
+<tr><td>Exchange float tightens</td><td>Rising on-chain staking and declining exchange reserves alongside institutional demand growth is the supply/demand setup the position requires. Visible in wallet data in real time.</td></tr>
+<tr><td>Japan / Dentsu Soken reaches production</td><td>Geographic diversification of live deployments materially reduces single-corridor risk and demonstrates that Fusion can operate across different regulatory regimes simultaneously.</td></tr>
+<tr><td>XRP and Stellar integrations deepen</td><td>QNT operating as the orchestration layer above payment-focused ledgers would position it as infrastructure to those ecosystems rather than a competitor — a strongly additive development.</td></tr>
+<tr><td>Swift integrates rather than competes</td><td>Swift or a major bank integrating with Quant rather than building against it would signal that the interoperability layer has become a standard — the highest-conviction outcome available to the position.</td></tr>
+</table>
+</div>
+</div>
+
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="pos-row">
+<div class="pos-box a"><div class="pos-lbl">Committee Posture</div><div class="pos-val a">Position Open</div></div>
+<div class="pos-box a"><div class="pos-lbl">Entry Decision</div><div class="pos-val a">Committee Decision</div></div>
+<div class="pos-box"><div class="pos-lbl">Phase</div><div class="pos-val">IV — On-chain audit</div></div>
+<div class="pos-box"><div class="pos-lbl">Research Date</div><div class="pos-val">20 Nov 2026</div></div>
+</div>
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+<span class="posture-pill">Position open</span>
+<span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2)">Committee decision · 20 November 2026</span>
+</div>
+<div class="posture-quote">The closing question is not whether the world will digitise money. It is which infrastructure providers become indispensable when it does — and whether QNT captures a material share of that value.</div>
+<p>We are in the infrastructure direction and in QNT. The 2027 catalyst stack is live — Clearing House production, Fusion on-chain economics and second institutional selection are the events we are watching to build the position further. This is a conviction hold, not a trade.</p>
+<div style="margin-top:16px;display:flex;gap:7px;flex-wrap:wrap">
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;background:rgba(200,152,42,.12);border:1px solid rgba(200,152,42,.3);color:var(--acc)">QNT ● Active</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.07);color:var(--fg2)">HBAR Watch</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.07);color:var(--fg2)">LINK Watch</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.07);color:var(--fg2)">XDC Watch</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.07);color:var(--fg2)">XLM Watch</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.07);color:var(--fg2)">SOL Watch</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.07);color:var(--fg2)">SUI Watch</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.07);color:var(--fg2)">HYPE Watch</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;border:1px solid rgba(255,255,255,.07);color:var(--fg2)">CANTON Watch</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- SOL -->
+<div class="panel" id="p-sol">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#9945FF">SOL</div>
+<div class="hname">Solana — High-Performance L1</div>
+<div class="hbadge w">Active Research</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">$72</span><span class="stat-l">Price (Nov 2026)</span></div>
+<div class="stat"><span class="stat-v">$34.2B</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">$1.5B</span><span class="stat-l">24h Volume</span></div>
+<div class="stat"><span class="stat-v">475M (uncapped)</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">$2.11 / SOL</span><span class="stat-l">Per $1B Mcap</span></div>
+<div class="stat"><span class="stat-v">= Mcap (uncapped)</span><span class="stat-l">FDV Status</span></div>
+</div>
+</div><div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive View</span></div>
+<div class="sec-body">
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1)">Solana is the highest-throughput production blockchain, processing 65,000+ TPS at sub-cent fees. The 2024-2025 cycle saw SOL reclaim top-3 status driven by memecoin activity, DeFi TVL expansion, and Firedancer validator client deployment. Institutional custody infrastructure (Franklin Templeton, VanEck ETF proposals) now matches Ethereum. The uncapped supply is offset by token burning and fee-destruction mechanics. Sub-Quadratic thesis: asymmetric upside in the event of an SOL spot ETF approval comparable to ETH ETF trajectory.</p></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<ol style="font-size:12.5px;line-height:1.65;color:var(--fg1);padding-left:20px"><li><strong style="color:var(--fg0)">Throughput Leadership</strong> — 65k+ TPS, sub-100ms finality, &lt;$0.001 median fee; Firedancer client targets 1M TPS by 2026.</li><li><strong style="color:var(--fg0)">DeFi & NFT Ecosystem</strong> — Raydium, Jupiter, Orca TVL &gt;$8B; Tensor and Magic Eden dominant NFT venues; Pump.fun memecoin factory &gt;3M launches.</li><li><strong style="color:var(--fg0)">Institutional Adoption</strong> — Franklin Templeton, VanEck, 21Shares SOL ETF filings; Visa, Stripe stablecoin settlement pilots on Solana.</li><li><strong style="color:var(--fg0)">Staking Yield</strong> — ~6.5% native staking APY; liquid staking via Jito, Marinade compounds DeFi composability.</li><li><strong style="color:var(--fg0)">Developer Momentum</strong> — &gt;3,000 monthly active developers; Solana Mobile Chapter 2 handset pre-orders exceeded 100k.</li></ol></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Evidence & Partnership Matrix</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Partner / Protocol</div><div class="sc-cell hd">Sector</div><div class="sc-cell hd">Significance</div></div><div class="sc-row"><div class="sc-cell ">Franklin Templeton</div><div class="sc-cell ">Asset Management</div><div class="sc-cell ">SOL ETF filing; tokenised fund on-chain</div></div><div class="sc-row"><div class="sc-cell ">Visa / Stripe</div><div class="sc-cell ">Payments</div><div class="sc-cell ">USDC settlement pilot on Solana mainnet</div></div><div class="sc-row"><div class="sc-cell ">Jump / Firedancer</div><div class="sc-cell ">Infrastructure</div><div class="sc-cell ">2nd validator client; targets 1M TPS</div></div><div class="sc-row"><div class="sc-cell ">Jito Foundation</div><div class="sc-cell ">LST / MEV</div><div class="sc-cell ">$2.1B jitoSOL TVL; MEV infrastructure</div></div><div class="sc-row"><div class="sc-cell ">Jupiter Exchange</div><div class="sc-cell ">DEX Aggregator</div><div class="sc-cell ">Largest on-chain DEX volume; JUP airdrop</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Valuation Framework</span></div>
+<div class="sec-body">
+<p style="font-size:11px;color:var(--fg2);margin-bottom:10px">Per-token price at given market cap scenarios. Uncapped supply; circulating 475M. Arithmetic: Mcap ÷ 475M.</p><table class="mt-tbl"><thead><tr><th>Mcap Scenario</th><th>$ Mcap</th><th>SOL Price</th><th>vs Today</th></tr></thead><tbody><tr><td>Base — cycle recovery</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$34.2B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$72.00</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Current</td></tr><tr><td>Bull — ETF inflows</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$75B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$157.89</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+119%</td></tr><tr><td>Ultra — global reserve L1</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$150B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$315.79</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+339%</td></tr><tr><td>Extreme — SOL reserve status</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$300B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$631.58</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+777%</td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Supply Architecture</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Total Supply</div><div class="fv warn">Uncapped (inflationary, decaying ~15% → 1.5% pa)</div></div><div class="fr"><div class="fl">Circulating Supply</div><div class="fv ">475M SOL (Nov 2026)</div></div><div class="fr"><div class="fl">Inflation Rate</div><div class="fv ">Current ~5.2% pa; converging to 1.5% long-run</div></div><div class="fr"><div class="fl">Fee Burn</div><div class="fv ">~50% of base fees burned; accelerates at high throughput</div></div><div class="fr"><div class="fl">Foundation Holdings</div><div class="fv ">Solana Foundation holds ~8.2% of supply; vesting complete</div></div><div class="fr"><div class="fl">Staked Supply</div><div class="fv flag">~65% of circulating staked; reduces effective float</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Dimension</div><div class="sc-cell hd">Assessment</div><div class="sc-cell hd">Signal</div></div><div class="sc-row"><div class="sc-cell ">vs Ethereum</div><div class="sc-cell ">Lower fees; less decentralisation; faster iteration</div><div class="sc-cell ">Competitive</div></div><div class="sc-row"><div class="sc-cell ">vs Sui / Aptos</div><div class="sc-cell ">Established ecosystem advantage; 100× developer base</div><div class="sc-cell ">Dominant</div></div><div class="sc-row"><div class="sc-cell ">ETF Catalyst</div><div class="sc-cell ">VanEck+Franklin filings under SEC review 2026</div><div class="sc-cell ">High Impact</div></div><div class="sc-row"><div class="sc-cell ">Outage History</div><div class="sc-cell ">Major outages 2022–23; network stable 18+ months</div><div class="sc-cell ">Improving</div></div><div class="sc-row"><div class="sc-cell ">Meme Cycle Risk</div><div class="sc-cell ">Pump.fun volume 30–40% of on-chain; concentration risk</div><div class="sc-cell ">Monitor</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Outage recurrence</strong> — Network halt risk non-zero; Firedancer mitigates but not eliminated</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Inflation dilution</strong> — Uncapped supply; at &lt;$3B fees burned pa, dilution outpaces burn</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>ETF rejection</strong> — SEC delay or denial removes dominant 2026 catalyst; 30-40% drawdown</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Ethereum catch-up</strong> — Dencun + Pectra upgrades close SOL fee/speed advantage</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>FTX / Alameda overhang</strong> — Remaining estate SOL tokens; court distributions could create selling pressure</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl"><thead><tr><th>Catalyst</th><th>Expected Timing</th><th>Impact</th></tr></thead><tbody><tr><td>SOL Spot ETF Approval (US)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">H1 2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Institutional inflow $5–15B est.</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Firedancer mainnet (1M TPS)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Q1 2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Removes throughput ceiling narrative</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Solana Mobile Chapter 2 ship</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Q4 2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Consumer crypto onboarding vector</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Stablecoin settlement (Stripe live)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Real-world payment volume anchor</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Cross-chain bridging maturity</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Unlocks ETH liquidity migration</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div class="sec-num" style="margin:0">SOL</div>
+<div class="posture-pill">ACTIVE RESEARCH</div>
+</div>
+<div class="posture-quote">"High conviction on throughput leadership; ETF catalyst is the entry trigger."</div>
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1);margin-top:12px">SOL is the highest-probability institutional adoption play outside BTC/ETH. The uncapped supply is a risk but is offset by meaningful fee-burn at scale. Committee posture: accumulate at current levels ($60–80); scale to 15% on ETF confirmation. Do not chase above $200 without confirmed inflow data. Size: 10–15% of digital allocation.</p>
+</div></div>
+</div>
+
+</div>
+<!-- LINK -->
+<div class="panel" id="p-link">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#2A5BC8">LINK</div>
+<div class="hname">Chainlink — Decentralised Oracle Network</div>
+<div class="hbadge w">Active Research</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">$9.00</span><span class="stat-l">Price (Nov 2026)</span></div>
+<div class="stat"><span class="stat-v">$5.3B</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">$280M</span><span class="stat-l">24h Volume</span></div>
+<div class="stat"><span class="stat-v">587M / 1B max</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">$1.70 / LINK</span><span class="stat-l">Per $1B Mcap</span></div>
+<div class="stat"><span class="stat-v">58.7% float</span><span class="stat-l">Circ / Max</span></div>
+</div>
+</div><div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive View</span></div>
+<div class="sec-body">
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1)">Chainlink is the dominant cross-chain oracle and data infrastructure layer, securing &gt;$20T in total value enabled (TVE) across 1,800+ integrations. CCIP (Cross-Chain Interoperability Protocol) positions LINK as the institutional messaging backbone for tokenised assets — the Swift of DeFi. The BUILD programme locks LINK as collateral for oracle services, while staking v0.2 adds yield and long-term lock-up. Sub-Quadratic thesis: LINK is infrastructure rent — every tokenised real-world asset that queries price data or bridges chains pays LINK fees.</p></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<ol style="font-size:12.5px;line-height:1.65;color:var(--fg1);padding-left:20px"><li><strong style="color:var(--fg0)">Oracle Monopoly</strong> — 70%+ DeFi oracle market share; &gt;1,800 protocol integrations; no credible challenger at scale.</li><li><strong style="color:var(--fg0)">CCIP Enterprise Adoption</strong> — Swift CBDC pilots, DTCC settlement tests, ANZ cross-border payments all use CCIP.</li><li><strong style="color:var(--fg0)">Tokenised RWA Infrastructure</strong> — Every BlackRock BUIDL, Franklin OnChain, Ondo Finance query routes through Chainlink price feeds.</li><li><strong style="color:var(--fg0)">Staking v0.2 Lock-up</strong> — 75M LINK staked (~12.8% of circ); reduces sell pressure; 4–6% APY.</li><li><strong style="color:var(--fg0)">BUILD Programme</strong> — New protocols commit 3–5% of token supply to LINK holders; compounding ecosystem alignment.</li></ol></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Evidence & Partnership Matrix</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Partner</div><div class="sc-cell hd">Sector</div><div class="sc-cell hd">Integration</div></div><div class="sc-row"><div class="sc-cell ">Swift</div><div class="sc-cell ">Banking Infrastructure</div><div class="sc-cell ">CCIP cross-border settlement pilot 2024</div></div><div class="sc-row"><div class="sc-cell ">DTCC</div><div class="sc-cell ">Capital Markets</div><div class="sc-cell ">Smart NAV project; fund tokenisation data</div></div><div class="sc-row"><div class="sc-cell ">BlackRock BUIDL</div><div class="sc-cell ">Asset Management</div><div class="sc-cell ">On-chain NAV price feeds via Chainlink</div></div><div class="sc-row"><div class="sc-cell ">ANZ Bank</div><div class="sc-cell ">Retail Banking</div><div class="sc-cell ">Cross-chain stablecoin transfer via CCIP</div></div><div class="sc-row"><div class="sc-cell ">Fidelity / Franklin</div><div class="sc-cell ">Asset Management</div><div class="sc-cell ">Tokenised treasury price oracle feeds</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Valuation Framework</span></div>
+<div class="sec-body">
+<p style="font-size:11px;color:var(--fg2);margin-bottom:10px">Per-token price at given market cap scenarios. 587M circulating; 1B max. Arithmetic: Mcap ÷ 587M.</p><table class="mt-tbl"><thead><tr><th>Mcap Scenario</th><th>$ Mcap</th><th>LINK Price</th><th>vs Today</th></tr></thead><tbody><tr><td>Current price</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$5.3B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$9.00</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">—</td></tr><tr><td>Base — oracle demand scales</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$15B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$25.55</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+184%</td></tr><tr><td>Bull — CCIP institutional standard</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$30B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$51.11</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+468%</td></tr><tr><td>Extreme — RWA backbone</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$60B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$102.21</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+1,035%</td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Supply Architecture</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Total Supply</div><div class="fv ">1,000,000,000 LINK (hard cap)</div></div><div class="fr"><div class="fl">Circulating Supply</div><div class="fv ">587M LINK (58.7%)</div></div><div class="fr"><div class="fl">Remaining to Vest</div><div class="fv ">~413M: developer grant pool + team (vesting completed 2024)</div></div><div class="fr"><div class="fl">Staking Lock-up</div><div class="fv flag">75M LINK in staking v0.2 (~12.8% of circ)</div></div><div class="fr"><div class="fl">Inflation</div><div class="fv ">Zero — no new issuance; fee-funded rewards only</div></div><div class="fr"><div class="fl">BUILD Programme Inflows</div><div class="fv flag">Protocols allocate 3–5% of token supply to LINK holders</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Dimension</div><div class="sc-cell hd">Assessment</div><div class="sc-cell hd">Signal</div></div><div class="sc-row"><div class="sc-cell ">vs Band / API3</div><div class="sc-cell ">No institutional credibility; LINK moat is network effects</div><div class="sc-cell ">Dominant</div></div><div class="sc-row"><div class="sc-cell ">CCIP vs LayerZero</div><div class="sc-cell ">CCIP has bank pilots; LayerZero has DeFi volume</div><div class="sc-cell ">Competitive</div></div><div class="sc-row"><div class="sc-cell ">RWA Tokenisation</div><div class="sc-cell ">Every on-chain RWA needs price feed; LINK is toll gate</div><div class="sc-cell ">High Signal</div></div><div class="sc-row"><div class="sc-cell ">Protocol Revenue</div><div class="sc-cell ">Oracle fees growing; full LINK staking reward switch TBD</div><div class="sc-cell ">Watch</div></div><div class="sc-row"><div class="sc-cell ">SEC Clarity</div><div class="sc-cell ">LINK not named in SEC suits; regulatory risk low</div><div class="sc-cell ">Positive</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Oracle centralisation narrative</strong> — LINK operators are permissioned; critics cite systemic risk</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Competing L1 native oracles</strong> — Solana Pyth gains DeFi share; reduces LINK L1 dependency</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>CCIP adoption pace</strong> — Enterprise pilots → production pipeline is slow; 18-month minimum</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Remaining supply unlock</strong> — 413M remaining vs 587M circulating; dilution risk on release</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Smart contract exploit</strong> — Flash loan oracle manipulation remains DeFi attack vector</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl"><thead><tr><th>Catalyst</th><th>Expected Timing</th><th>Impact</th></tr></thead><tbody><tr><td>CCIP production (Swift live)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026–2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Largest institutional proof point</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Staking v1.0 (full rewards)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">LINK fee-capture activated; yield demand</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>RWA market $10T+ on-chain</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027–2028</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Oracle fee base 10× current</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>LINK spot ETF consideration</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Institutional custody + inflows</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>DTCC settlement go-live</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">US capital markets anchor client</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div class="sec-num" style="margin:0">LINK</div>
+<div class="posture-pill">ACTIVE RESEARCH</div>
+</div>
+<div class="posture-quote">"The toll-gate for institutional blockchain. CCIP is the most important product in crypto infrastructure."</div>
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1);margin-top:12px">LINK is the Sub-Quadratic highest-conviction infrastructure hold. The moat is real: 1,800 integrations, Swift pilots, BlackRock price feeds. Risk is pacing — enterprise adoption is slower than DeFi hype cycles. Accumulate at current levels ($8–11); target exit at $40–50 on RWA catalyst. Size: 8–12% of digital allocation.</p>
+</div></div>
+</div>
+
+</div>
+<!-- HBAR -->
+<div class="panel" id="p-hbar">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#00C2CB">HBAR</div>
+<div class="hname">Hedera — Enterprise DLT Network</div>
+<div class="hbadge w">Active Research</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">$0.056</span><span class="stat-l">Price (Nov 2026)</span></div>
+<div class="stat"><span class="stat-v">$2.4B</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">$55M</span><span class="stat-l">24h Volume</span></div>
+<div class="stat"><span class="stat-v">42.4B / 50B max</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">$0.0236 / HBAR</span><span class="stat-l">Per $1B Mcap</span></div>
+<div class="stat"><span class="stat-v">84.8% circulating</span><span class="stat-l">Float Ratio</span></div>
+</div>
+</div><div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive View</span></div>
+<div class="sec-body">
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1)">Hedera Hashgraph operates the only enterprise-grade public DLT governed by a council of Fortune 500 companies including Google, IBM, Boeing, Deutsche Telekom, and Standard Bank. The hashgraph consensus mechanism achieves 10,000+ TPS at $0.0001 fees with mathematical Byzantine fault tolerance — not probabilistic. HBAR is the native utility token for transaction fees, staking, and smart contract gas. Sub-Quadratic thesis: Hedera is the institutional compliance blockchain — the only public network with governing council accountability that enterprises can reference in audit trails.</p></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<ol style="font-size:12.5px;line-height:1.65;color:var(--fg1);padding-left:20px"><li><strong style="color:var(--fg0)">Governing Council</strong> — 39 council members including Google, IBM, Boeing, LG, Deutsche Telekom; legal accountability unmatched in crypto.</li><li><strong style="color:var(--fg0)">Tokenisation Infrastructure</strong> — Hedera Token Service (HTS) enables fractional asset creation; used by Archax, TOKO, and institutional tokenisation platforms.</li><li><strong style="color:var(--fg0)">Energy Efficiency</strong> — Carbon-negative since 2021; ESG compliance requirement satisfied for EU/UK regulated funds.</li><li><strong style="color:var(--fg0)">CBDC Pilots</strong> — Multiple central bank CBDC pilots (Standard Bank South Africa, Bank of Korea trials); Dropp micropayment network.</li><li><strong style="color:var(--fg0)">Transaction Growth</strong> — 15B+ cumulative transactions; consistently &gt;3M daily transactions; growing stablecoin activity.</li></ol></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Evidence & Partnership Matrix</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Partner</div><div class="sc-cell hd">Sector</div><div class="sc-cell hd">Integration</div></div><div class="sc-row"><div class="sc-cell ">Google Cloud</div><div class="sc-cell ">Technology</div><div class="sc-cell ">Council member; tokenised carbon credits</div></div><div class="sc-row"><div class="sc-cell ">IBM</div><div class="sc-cell ">Enterprise Tech</div><div class="sc-cell ">Council member; supply chain provenance</div></div><div class="sc-row"><div class="sc-cell ">Standard Bank</div><div class="sc-cell ">Banking</div><div class="sc-cell ">CBDC settlement pilot; stablecoin rails</div></div><div class="sc-row"><div class="sc-cell ">Archax</div><div class="sc-cell ">Digital Exchange</div><div class="sc-cell ">Tokenised fund shares on HTS</div></div><div class="sc-row"><div class="sc-cell ">Coupon Bureau</div><div class="sc-cell ">Retail / FMCG</div><div class="sc-cell ">1.5B+ coupons processed on Hedera</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Valuation Framework</span></div>
+<div class="sec-body">
+<p style="font-size:11px;color:var(--fg2);margin-bottom:10px">Per-token price at given market cap scenarios. 42.4B circulating; 50B max. Arithmetic: Mcap ÷ 42.4B. Current: $2.4B → $0.056. All multiples vs $0.056.</p><table class="mt-tbl"><thead><tr><th>Mcap Scenario</th><th>$ Mcap</th><th>HBAR Price</th><th>vs Today</th></tr></thead><tbody><tr><td>Base — tokenisation growth</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$5B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.1179</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+108%</td></tr><tr><td>Base — tokenisation growth</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$8B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.189</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2.1×</td></tr><tr><td>Bull — CBDC standard wins</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$20B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.472</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">5.4×</td></tr><tr><td>Extreme — global DLT standard</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$50B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$1.179</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">13.4×</td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Supply Architecture</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Total Supply</div><div class="fv ">50,000,000,000 HBAR (hard cap)</div></div><div class="fr"><div class="fl">Circulating Supply</div><div class="fv ">42.4B HBAR (84.8%)</div></div><div class="fr"><div class="fl">Remaining</div><div class="fv ">~7.6B reserved for council + ecosystem grants</div></div><div class="fr"><div class="fl">Inflation</div><div class="fv warn">No mining; council-controlled treasury releases</div></div><div class="fr"><div class="fl">Fee Model</div><div class="fv flag">All transaction fees paid in HBAR; burned or distributed</div></div><div class="fr"><div class="fl">Council Treasury</div><div class="fv ">HBAR Foundation holds ~15B total; active ecosystem grants</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Dimension</div><div class="sc-cell hd">Assessment</div><div class="sc-cell hd">Signal</div></div><div class="sc-row"><div class="sc-cell ">vs Ripple / XRP</div><div class="sc-cell ">Hedera has broader council; more neutral governance</div><div class="sc-cell ">Competitive</div></div><div class="sc-row"><div class="sc-cell ">vs Private DLT (Fabric)</div><div class="sc-cell ">Public auditability advantage; enterprise moving to public</div><div class="sc-cell ">Positive</div></div><div class="sc-row"><div class="sc-cell ">CBDC Race</div><div class="sc-cell ">Multiple live pilots; not yet mandated standard</div><div class="sc-cell ">Watch</div></div><div class="sc-row"><div class="sc-cell ">EVM Compatibility</div><div class="sc-cell ">Hedera EVM added 2022; Solidity devs can migrate</div><div class="sc-cell ">Improving</div></div><div class="sc-row"><div class="sc-cell ">Regulatory Status</div><div class="sc-cell ">Utility classification; council structure reduces token risk</div><div class="sc-cell ">Positive</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Council dependency</strong> — Governance relies on corporate council; not censorship-resistant by design</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Low retail awareness</strong> — Limited DeFi ecosystem vs Ethereum/Solana; speculative demand muted</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Treasury unlock risk</strong> — 7.6B remaining HBAR; council releases on undisclosed schedule</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Competing enterprise chains</strong> — XDC, Quorum, Corda fighting same enterprise wallet; winner-take-some market</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>CBDC adoption timeline</strong> — Government CBDC deployment 3–7 year horizon; near-term catalyst limited</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl"><thead><tr><th>Catalyst</th><th>Expected Timing</th><th>Impact</th></tr></thead><tbody><tr><td>CBDC production deployment</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026–2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Transaction volume step-change</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>RWA tokenisation at scale</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026+</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">HTS becomes institutional rails</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Fortune 500 council expansion</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Governance legitimacy + adoption</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Stablecoin settlement (EUR/USD)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Payment network HBAR fee demand</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Supply chain mandate (ESG)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">EU CSRD drives Hedera provenance use</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div class="sec-num" style="margin:0">HBAR</div>
+<div class="posture-pill">ACTIVE RESEARCH</div>
+</div>
+<div class="posture-quote">"The only public blockchain with Fortune 500 governance. Institutional trust infrastructure at discount."</div>
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1);margin-top:12px">HBAR trades at a significant discount to its enterprise network value. The governing council gives it a legitimacy premium no other public chain can replicate. Near-term catalysts are slow-burn institutional. Entry range: $0.055–0.075; size 5–8% of digital allocation; hold through CBDC catalyst, review at $0.25.</p>
+</div></div>
+</div>
+
+</div>
+<!-- SUI -->
+<div class="panel" id="p-sui">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#4DA2FF">SUI</div>
+<div class="hname">Sui Network — Next-Gen L1</div>
+<div class="hbadge w">Active Research</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">$0.68</span><span class="stat-l">Price (Nov 2026)</span></div>
+<div class="stat"><span class="stat-v">$2.0B</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">$320M</span><span class="stat-l">24h Volume</span></div>
+<div class="stat"><span class="stat-v">2.96B / 10B max</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">$0.338 / SUI</span><span class="stat-l">Per $1B Mcap</span></div>
+<div class="stat"><span class="stat-v">29.6% circulating only</span><span class="stat-l">FDV WARNING</span></div>
+</div>
+</div><div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive View</span></div>
+<div class="sec-body">
+<div class="callout">⚠ FDV ALERT: Only 29.6% of 10B max supply circulating. FDV = $6.8B at current price ($0.68 × 10B total supply). Remaining 7.04B SUI tokens will unlock 2025–2030. Dilution risk is the primary position-sizing constraint.</div><p style="font-size:12.5px;line-height:1.65;color:var(--fg1)">Sui is a Mysten Labs L1 built on the Move programming language, delivering parallel transaction execution via its object-centric data model. Sui achieves sub-500ms finality at 100k+ TPS theoretical throughput. The DeFi ecosystem has grown rapidly: Cetus, Turbos, and Navi Protocol drove TVL above $1.5B by mid-2025. SUI's zkLogin enables Web2-compatible onboarding — users can create wallets with Google credentials. Sub-Quadratic thesis: SUI is the highest-upside L1 for gaming and consumer apps, but requires FDV discipline on sizing.</p></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<ol style="font-size:12.5px;line-height:1.65;color:var(--fg1);padding-left:20px"><li><strong style="color:var(--fg0)">Move Language Safety</strong> — Object-centric model eliminates reentrancy attacks; programmable asset ownership model enables novel NFT/game mechanics.</li><li><strong style="color:var(--fg0)">Parallel Execution</strong> — Non-conflicting transactions processed simultaneously; theoretical 100k+ TPS without sharding.</li><li><strong style="color:var(--fg0)">Gaming & Consumer Apps</strong> — Mysten has partnerships with Sony (PlayStation), Alibaba Cloud, and AWS for gaming infrastructure.</li><li><strong style="color:var(--fg0)">zkLogin UX</strong> — Google/Apple OAuth wallet creation removes seed phrase barrier; highest Web2 onboarding potential in L1 space.</li><li><strong style="color:var(--fg0)">DeFi TVL Growth</strong> — $1.5B+ TVL 18 months post-launch; Navi (lending), Cetus (DEX), Scallop among top protocols.</li></ol></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Evidence & Partnership Matrix</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Partner</div><div class="sc-cell hd">Sector</div><div class="sc-cell hd">Integration</div></div><div class="sc-row"><div class="sc-cell ">Sony / PlayStation</div><div class="sc-cell ">Gaming</div><div class="sc-cell ">Sui blockchain gaming layer for PS5 titles</div></div><div class="sc-row"><div class="sc-cell ">Alibaba Cloud</div><div class="sc-cell ">Cloud</div><div class="sc-cell ">Node infrastructure + developer tooling</div></div><div class="sc-row"><div class="sc-cell ">Amazon AWS</div><div class="sc-cell ">Cloud</div><div class="sc-cell ">Marketplace listing; enterprise node hosting</div></div><div class="sc-row"><div class="sc-cell ">Circle (USDC)</div><div class="sc-cell ">Stablecoin</div><div class="sc-cell ">Native USDC deployment on Sui mainnet</div></div><div class="sc-row"><div class="sc-cell ">Mysten Labs</div><div class="sc-cell ">Core Dev</div><div class="sc-cell ">Well-funded ($300M Series B); 100+ engineers</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Valuation Framework</span></div>
+<div class="sec-body">
+<p style="font-size:11px;color:var(--fg2);margin-bottom:10px">⚠ 70.4% of supply still to unlock. Circ Mcap ÷ 2.96B = price. Current: $2.0B → $0.68. All % vs $0.68.</p><table class="mt-tbl"><thead><tr><th>Scenario</th><th>Circ Mcap</th><th>SUI Price</th><th>vs Today</th></tr></thead><tbody><tr><td>Bear — unlock pressure</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$1.0B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.338</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">–50%</td></tr><tr><td>Current — today</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$2.0B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.676</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">—</td></tr><tr><td>Base — gaming breakout</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$5B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$1.689</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+149%</td></tr><tr><td>Bull — L1 consolidation</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$15B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$5.068</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+645%</td></tr><tr><td>Extreme — dominant gaming L1</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$40B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$13.514</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+1,887%</td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Supply Architecture</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Total Supply</div><div class="fv ">10,000,000,000 SUI (hard cap)</div></div><div class="fr"><div class="fl">Circulating Supply</div><div class="fv warn">2.96B SUI (29.6%) — LOW</div></div><div class="fr"><div class="fl">Remaining Unlocks</div><div class="fv warn">7.04B SUI: team (20%), investors (14%), Mysten Foundation (10%), R&D (6%)</div></div><div class="fr"><div class="fl">Unlock Schedule</div><div class="fv ">Linear vesting 2025–2030; ~1.4B SUI pa for 5 years</div></div><div class="fr"><div class="fl">Staking</div><div class="fv ">~45% of circulating staked; ~3% APY</div></div><div class="fr"><div class="fl">Fee Model</div><div class="fv ">Gas paid in SUI; storage deposit rebate model</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Dimension</div><div class="sc-cell hd">Assessment</div><div class="sc-cell hd">Signal</div></div><div class="sc-row"><div class="sc-cell ">vs Aptos (Move competitor)</div><div class="sc-cell ">SUI has higher TVL, more gaming deals, better UX</div><div class="sc-cell ">Ahead</div></div><div class="sc-row"><div class="sc-cell ">vs Solana</div><div class="sc-cell ">SOL leads DeFi volume; SUI leads UX innovation</div><div class="sc-cell ">Differentiated</div></div><div class="sc-row"><div class="sc-cell ">Gaming TAM</div><div class="sc-cell ">$180B game industry; &lt;0.1% on-chain; SUI positioned</div><div class="sc-cell ">Long-term</div></div><div class="sc-row"><div class="sc-cell ">zkLogin adoption</div><div class="sc-cell ">10k+ zkLogin wallets created; still early-stage</div><div class="sc-cell ">Watch</div></div><div class="sc-row"><div class="sc-cell ">Unlock headwind</div><div class="sc-cell ">7B tokens unlocking = structural sell pressure 2025-30</div><div class="sc-cell ">Risk</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Supply unlock overhang</strong> — 7B tokens unlocking 2025–2030; can suppress price ceiling for years</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Gaming adoption timeline</strong> — Console blockchain gaming 2–4 year mainstream horizon</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>L1 competition</strong> — Solana, Ethereum, Base all competing for same developer mindshare</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Smart contract maturity</strong> — Move language ecosystem smaller; fewer audited tools vs Solidity</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>VC concentration</strong> — a16z, FTX Ventures (est.), Coinbase Ventures hold large positions; distribution risk</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl"><thead><tr><th>Catalyst</th><th>Expected Timing</th><th>Impact</th></tr></thead><tbody><tr><td>PlayStation title on-chain</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026–2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Mass-market gaming wallet onboarding</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>zkLogin 1M user milestone</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Consumer crypto UX breakthrough</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>TVL $5B+</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">DeFi credibility vs Solana</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>zkSync/Polygon bridge live</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Cross-chain liquidity access</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>SUI ETF filing</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Institutional custody recognition</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div class="sec-num" style="margin:0">SUI</div>
+<div class="posture-pill">ACTIVE RESEARCH</div>
+</div>
+<div class="posture-quote">"Highest-upside consumer L1, but FDV discipline is non-negotiable. Size accordingly."</div>
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1);margin-top:12px">SUI merits a position on gaming and UX innovation thesis alone. However, the 70% supply overhang demands smaller sizing than fundamentals suggest. Committee posture: 3–5% of digital allocation; accumulate at current levels ($0.50–0.80); do not scale up until unlock pace visible in on-chain data.</p>
+</div></div>
+</div>
+
+</div>
+<!-- XLM -->
+<div class="panel" id="p-xlm">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#7EC8E3">XLM</div>
+<div class="hname">Stellar — Cross-Border Payments Network</div>
+<div class="hbadge w">Watchlist</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">$0.13</span><span class="stat-l">Price (Nov 2026)</span></div>
+<div class="stat"><span class="stat-v">$4.0B</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">$95M</span><span class="stat-l">24h Volume</span></div>
+<div class="stat"><span class="stat-v">30.4B / 50B max</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">$0.0329 / XLM</span><span class="stat-l">Per $1B Mcap</span></div>
+<div class="stat"><span class="stat-v">60.8% circulating</span><span class="stat-l">Float Ratio</span></div>
+</div>
+</div><div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive View</span></div>
+<div class="sec-body">
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1)">Stellar is the payments and remittance blockchain built for financial inclusion — originally spun out of Ripple, now led by the Stellar Development Foundation (SDF). XLM powers sub-5-second, $0.00001 cross-border transfers across 180+ fiat currency pairs via Stellar's decentralised exchange. The MoneyGram partnership enables cash-in/cash-out at 350,000+ global locations. Stellar's SEP (Stellar Ecosystem Proposal) standards are adopted by USDC (Circle) and multiple CBDC pilots. Sub-Quadratic thesis: XLM is the payments rails bet — if on-chain stablecoin remittance achieves 1% of SWIFT volume, XLM fee demand is transformative.</p></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<ol style="font-size:12.5px;line-height:1.65;color:var(--fg1);padding-left:20px"><li><strong style="color:var(--fg0)">MoneyGram Partnership</strong> — Cash-in/cash-out at 350k+ global locations; USDC settlement via Stellar; live and processing volume.</li><li><strong style="color:var(--fg0)">Circle USDC on Stellar</strong> — Native USDC issuance; enables $0.00001 stablecoin transfers; competitive with traditional wire.</li><li><strong style="color:var(--fg0)">Financial Inclusion TAM</strong> — 1.4B unbanked adults globally; Stellar Lumens as universal liquidity bridge between fiat pairs.</li><li><strong style="color:var(--fg0)">CBDC Integration</strong> — SDF actively engaged in multiple national CBDC programs; SEP standards positioned as CBDC interop layer.</li><li><strong style="color:var(--fg0)">Soroban Smart Contracts</strong> — Rust-based smart contracts launched 2024; enables DeFi primitives on Stellar rail; developer pipeline growing.</li></ol></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Evidence & Partnership Matrix</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Partner</div><div class="sc-cell hd">Sector</div><div class="sc-cell hd">Integration</div></div><div class="sc-row"><div class="sc-cell ">MoneyGram</div><div class="sc-cell ">Remittance</div><div class="sc-cell ">USDC-on-Stellar cash in/out at 350k+ agents</div></div><div class="sc-row"><div class="sc-cell ">Circle (USDC)</div><div class="sc-cell ">Stablecoin</div><div class="sc-cell ">Native USDC on Stellar; SEP-24 anchor</div></div><div class="sc-row"><div class="sc-cell ">IBM World Wire</div><div class="sc-cell ">Banking</div><div class="sc-cell ">Cross-border bank settlement pilot (wound down but proved concept)</div></div><div class="sc-row"><div class="sc-cell ">SDF / Various CBDCs</div><div class="sc-cell ">Government</div><div class="sc-cell ">Active CBDC interoperability design participation</div></div><div class="sc-row"><div class="sc-cell ">Flutterwave / Africa</div><div class="sc-cell ">Fintech</div><div class="sc-cell ">African remittance corridor on Stellar</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Valuation Framework</span></div>
+<div class="sec-body">
+<p style="font-size:11px;color:var(--fg2);margin-bottom:10px">Per-token price at given market cap scenarios. 30.4B circulating; 50B max. Arithmetic: Mcap ÷ 30.4B. Current: $4.0B → $0.13. All % vs $0.13.</p><table class="mt-tbl"><thead><tr><th>Mcap Scenario</th><th>$ Mcap</th><th>XLM Price</th><th>vs Today</th></tr></thead><tbody><tr><td>Bear — payments slow adoption</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$1.5B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.049</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">–62%</td></tr><tr><td>Base — stablecoin volume grows</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$6B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.197</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+52%</td></tr><tr><td>Bull — remittance market share</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$15B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.493</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+279%</td></tr><tr><td>Extreme — CBDC standard wins</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$35B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$1.151</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+786%</td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Supply Architecture</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Total Supply</div><div class="fv ">50,000,000,000 XLM (hard cap post-2019 burn)</div></div><div class="fr"><div class="fl">Circulating Supply</div><div class="fv ">30.4B XLM (60.8%)</div></div><div class="fr"><div class="fl">SDF Treasury</div><div class="fv warn">~27B XLM reserved; 10-year disbursement mandate</div></div><div class="fr"><div class="fl">Annual Release</div><div class="fv warn">~750M XLM pa from SDF for ecosystem grants</div></div><div class="fr"><div class="fl">Base Reserve</div><div class="fv ">0.5 XLM minimum balance per account; deflationary micro-lock</div></div><div class="fr"><div class="fl">Fee Burn</div><div class="fv flag">Transaction fees burned (not distributed); deflationary mechanic</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Dimension</div><div class="sc-cell hd">Assessment</div><div class="sc-cell hd">Signal</div></div><div class="sc-row"><div class="sc-cell ">vs Ripple / XRP</div><div class="sc-cell ">XLM open-source; XRP proprietary; different regulatory profile</div><div class="sc-cell ">Positive</div></div><div class="sc-row"><div class="sc-cell ">vs SWIFT</div><div class="sc-cell ">Stellar 5-sec settlement vs SWIFT 1-5 days; cost 99.999% lower</div><div class="sc-cell ">Structural Advantage</div></div><div class="sc-row"><div class="sc-cell ">Soroban DeFi</div><div class="sc-cell ">Smart contracts live 2024; early but functional; competing vs BSC</div><div class="sc-cell ">Watch</div></div><div class="sc-row"><div class="sc-cell ">SDF Governance</div><div class="sc-cell ">Non-profit foundation; not profit-driven; mission clarity</div><div class="sc-cell ">Positive</div></div><div class="sc-row"><div class="sc-cell ">Retail Speculation</div><div class="sc-cell ">Low unit price drives retail interest; high token count</div><div class="sc-cell ">Neutral</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>SDF treasury overhang</strong> — 27B XLM still controlled by foundation; ongoing dilution risk</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Payments adoption pacing</strong> — Real-world payment volume growth slower than narrative</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Soroban ecosystem maturity</strong> — Smart contract developer ecosystem tiny vs Ethereum/Solana</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Stablecoin disintermediation</strong> — If CBDCs or bank stablecoins dominate, XLM as bridge less needed</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>XRP legal clarity</strong> — Ripple SEC victory could shift remittance preference to XRP</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl"><thead><tr><th>Catalyst</th><th>Expected Timing</th><th>Impact</th></tr></thead><tbody><tr><td>MoneyGram volume 10× scale</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026–2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Visible on-chain remittance demand</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>African central bank CBDC</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Sovereign adoption of Stellar rail</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Soroban DeFi TVL $500M+</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Ecosystem credibility signal</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>SWIFT alternative mandate</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027+</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Regulatory tailwind for instant settlement</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>XLM stablecoin anchor growth</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">New fiat currency pairs live</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div class="sec-num" style="margin:0">XLM</div>
+<div class="posture-pill">WATCHLIST</div>
+</div>
+<div class="posture-quote">"The payments thesis is real. Execution pace determines sizing."</div>
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1);margin-top:12px">XLM holds a Watchlist position. The MoneyGram partnership and USDC rails are operational — not theoretical. The SDF treasury overhang suppresses price ceiling. Committee posture: initial 2–4% position; scale to 6–8% on CBDC production deployment. Entry range $0.10–0.14 (current: $0.13).</p>
+</div></div>
+</div>
+
+</div>
+<!-- XDC -->
+<div class="panel" id="p-xdc">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#2AB85A">XDC</div>
+<div class="hname">XDC Network — Trade Finance DLT</div>
+<div class="hbadge w">Watchlist</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">$0.030</span><span class="stat-l">Price (Nov 2026)</span></div>
+<div class="stat"><span class="stat-v">$0.42B</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">$10M</span><span class="stat-l">24h Volume</span></div>
+<div class="stat"><span class="stat-v">13.9B / 37.7B max</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">$0.0719 / XDC</span><span class="stat-l">Per $1B Mcap</span></div>
+<div class="stat"><span class="stat-v">36.9% circulating</span><span class="stat-l">Float Ratio</span></div>
+</div>
+</div><div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive View</span></div>
+<div class="sec-body">
+<div class="callout">⚠ FDV ALERT: Only 36.9% of 37.7B max supply circulating. FDV = $2.7B. Remaining 23.8B XDC tokens create material unlock risk.</div><p style="font-size:12.5px;line-height:1.65;color:var(--fg1)">XDC Network is an enterprise-grade, EVM-compatible hybrid blockchain purpose-built for trade finance and international settlement. XDC operates at 2,000 TPS with 2-second finality and near-zero transaction costs. The network is used by TradeFinex — the world's largest blockchain-based trade finance marketplace — and has partnerships with the ICC (International Chamber of Commerce) and multiple UN agencies for digitising Letters of Credit and invoices. Sub-Quadratic thesis: XDC is the niche-dominant trade finance chain; $20T+ global trade finance market provides enormous TVE ceiling if adoption gains regulatory mandate.</p></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<ol style="font-size:12.5px;line-height:1.65;color:var(--fg1);padding-left:20px"><li><strong style="color:var(--fg0)">TradeFinex Integration</strong> — Global trade finance tokenisation platform; Letters of Credit, invoices, and trade instruments on XDC mainnet.</li><li><strong style="color:var(--fg0)">ICC Partnership</strong> — International Chamber of Commerce endorsement for XDC as digital trade document standard.</li><li><strong style="color:var(--fg0)">R3 Corda Migration</strong> — Multiple R3 Corda consortium banks exploring XDC migration for public interoperability layer.</li><li><strong style="color:var(--fg0)">Impel RWA Bridge</strong> — XDC bridge to Ethereum, BNB chain via Impel; enables XDC-native RWAs to access DeFi liquidity.</li><li><strong style="color:var(--fg0)">Sub-Dollar Unit Price</strong> — Retail accessibility; speculative demand amplifies institutional catalyst moves.</li></ol></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Evidence & Partnership Matrix</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Partner</div><div class="sc-cell hd">Sector</div><div class="sc-cell hd">Integration</div></div><div class="sc-row"><div class="sc-cell ">ICC (Int'l Chamber of Commerce)</div><div class="sc-cell ">Trade Bodies</div><div class="sc-cell ">Digital trade document standard endorsement</div></div><div class="sc-row"><div class="sc-cell ">TradeFinex</div><div class="sc-cell ">Trade Finance</div><div class="sc-cell ">Largest XDC dApp; LoC + invoice tokenisation</div></div><div class="sc-row"><div class="sc-cell ">Tradeteq</div><div class="sc-cell ">Fintech</div><div class="sc-cell ">Trade asset tokenisation on XDC rails</div></div><div class="sc-row"><div class="sc-cell ">Impel</div><div class="sc-cell ">DeFi Bridge</div><div class="sc-cell ">Cross-chain asset bridge to EVM chains</div></div><div class="sc-row"><div class="sc-cell ">XinFin (Founding)</div><div class="sc-cell ">Infrastructure</div><div class="sc-cell ">Node operator network; genesis team</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Valuation Framework</span></div>
+<div class="sec-body">
+<p style="font-size:11px;color:var(--fg2);margin-bottom:10px">Per-token price at given market cap scenarios. 13.9B circulating; 37.7B max. Arithmetic: Mcap ÷ 13.9B (circ) or ÷ 37.7B (FDV). Current: $0.42B → $0.030 — below all scenarios (deep value or terminal).</p><table class="mt-tbl"><thead><tr><th>Scenario</th><th>$ Mcap</th><th>Circ Price</th><th>FDV Price</th></tr></thead><tbody><tr><td>Bear — niche remains niche</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.5B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.036</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.013</td></tr><tr><td>Base — LoC tokenisation grows</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$3B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.216</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.080</td></tr><tr><td>Bull — ICC mandate + R3 migration</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$8B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.576</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.212</td></tr><tr><td>Extreme — trade finance standard</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$20B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$1.439</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$0.531</td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Supply Architecture</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Total Supply</div><div class="fv ">37,700,000,000 XDC (hard cap)</div></div><div class="fr"><div class="fl">Circulating Supply</div><div class="fv warn">13.9B XDC (36.9%) — LOW</div></div><div class="fr"><div class="fl">Remaining Unlocks</div><div class="fv warn">23.8B XDC; team, foundation, ecosystem reserves</div></div><div class="fr"><div class="fl">Transaction Fee</div><div class="fv ">Minimal gas in XDC; near-zero fees designed for trade volume</div></div><div class="fr"><div class="fl">Masternodes</div><div class="fv ">4,000+ masternodes stake XDC; reduces float; network security</div></div><div class="fr"><div class="fl">Burn Mechanism</div><div class="fv warn">No burn; supply management via masternode lock-up only</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Dimension</div><div class="sc-cell hd">Assessment</div><div class="sc-cell hd">Signal</div></div><div class="sc-row"><div class="sc-cell ">Trade Finance TAM</div><div class="sc-cell ">$20T global market; &lt;0.001% on-chain</div><div class="sc-cell ">Enormous ceiling</div></div><div class="sc-row"><div class="sc-cell ">vs Contour / Komgo</div><div class="sc-cell ">Blockchain-native competitors; XDC is public not consortium</div><div class="sc-cell ">Differentiated</div></div><div class="sc-row"><div class="sc-cell ">ICC Mandate Risk</div><div class="sc-cell ">If ICC mandates XDC standard, adoption is regulatory push</div><div class="sc-cell ">High Impact</div></div><div class="sc-row"><div class="sc-cell ">Liquidity / Volume</div><div class="sc-cell ">$10M 24h vol is very low; large positions = price impact</div><div class="sc-cell ">Risk</div></div><div class="sc-row"><div class="sc-cell ">EVM Compatibility</div><div class="sc-cell ">Solidity devs can deploy; reduces switching cost</div><div class="sc-cell ">Positive</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Supply unlock overhang</strong> — 23.8B XDC unreleased; institutional hesitation on sizing</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Low liquidity</strong> — $10M daily volume; meaningful position = visible market impact</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Niche concentration</strong> — Pure trade finance play; macro trade slowdown is correlated risk</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Adoption velocity</strong> — Enterprise trade finance sales cycles 18-36 months; slow revenue</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Competing standards</strong> — SWIFT gpi, R3 Corda, Contour may win without XDC mandate</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl"><thead><tr><th>Catalyst</th><th>Expected Timing</th><th>Impact</th></tr></thead><tbody><tr><td>ICC digital trade mandate</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026–2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Regulatory tailwind for XDC standard</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Major bank TradeFinex go-live</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Real transaction volume anchor</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>R3 Corda public migration</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Institutional node migration</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Cross-border LoC volume $1B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">On-chain trade finance proof point</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>CEX top-10 listing</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Liquidity + discovery</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div class="sec-num" style="margin:0">XDC</div>
+<div class="posture-pill">WATCHLIST</div>
+</div>
+<div class="posture-quote">"Best-positioned trade finance chain. ICC mandate is the binary catalyst."</div>
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1);margin-top:12px">XDC is a speculative position on a specific institutional mandate. The supply overhang and low liquidity require disciplined sizing. Committee posture: 2–3% of digital allocation; accumulate at $0.025–0.040 (current $0.030); set hard review at ICC mandate confirmation or rejection by 2027.</p>
+</div></div>
+</div>
+
+</div>
+<!-- HYPE -->
+<div class="panel" id="p-hype">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#FF4A4A">HYPE</div>
+<div class="hname">Hyperliquid — On-Chain Perps Exchange</div>
+<div class="hbadge w">Active Research</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">$65</span><span class="stat-l">Price (Nov 2026)</span></div>
+<div class="stat"><span class="stat-v">$16.8B</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">$150M</span><span class="stat-l">24h Volume</span></div>
+<div class="stat"><span class="stat-v">258M / 1B max</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">$3.88 / HYPE</span><span class="stat-l">Per $1B Mcap</span></div>
+<div class="stat"><span class="stat-v">25.8% circulating</span><span class="stat-l">Float Ratio</span></div>
+</div>
+</div><div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive View</span></div>
+<div class="sec-body">
+<div class="callout">⚠ FDV ALERT: Only 25.8% of 1B max supply circulating. FDV = $65B at current price ($65 × 1B total supply). Team/investor unlocks TBC; monitor vesting schedule closely.</div><p style="font-size:12.5px;line-height:1.65;color:var(--fg1)">Hyperliquid is the highest-volume on-chain perpetuals exchange, processing $1–3B daily notional on its own purpose-built L1 (HyperBFT). Unlike Dydx or GMX which run on existing chains, Hyperliquid built its own consensus layer for &lt;1ms order latency — matching CEX performance. HYPE was airdropped in November 2024 — the largest crypto airdrop in history by $ value (~$1.5B at launch). The Hyperliquidity Provider (HLP) vault earns trading fees. Sub-Quadratic thesis: HYPE is the on-chain exchange bet — if CEX derivatives volume migrates on-chain, Hyperliquid captures the majority.</p></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<ol style="font-size:12.5px;line-height:1.65;color:var(--fg1);padding-left:20px"><li><strong style="color:var(--fg0)">On-Chain CEX Performance</strong> — &lt;1ms order latency; 100k orders/sec; native order book (not AMM); CEX UX on-chain.</li><li><strong style="color:var(--fg0)">Volume Leadership</strong> — $1–3B daily perps notional; &gt;60% of on-chain perps market share; dominant moat in addressable market.</li><li><strong style="color:var(--fg0)">HLP Vault Yield</strong> — Protocol fees accrue to HLP vault stakers; real revenue model; not inflationary rewards.</li><li><strong style="color:var(--fg0)">HyperEVM Launch</strong> — EVM-compatible chain deployed 2025; enables DeFi composability around the perps core.</li><li><strong style="color:var(--fg0)">No VC Funding</strong> — Bootstrapped, no outside investors; team-funded; no VC unlock overhang (unusual in crypto).</li></ol></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Evidence & Partnership Matrix</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Metric / Partner</div><div class="sc-cell hd">Data</div><div class="sc-cell hd">Significance</div></div><div class="sc-row"><div class="sc-cell ">Daily Perps Volume</div><div class="sc-cell ">$1–3B notional</div><div class="sc-cell ">Largest on-chain perps exchange globally</div></div><div class="sc-row"><div class="sc-cell ">Listed Assets</div><div class="sc-cell ">150+ perp markets</div><div class="sc-cell ">Comparable to mid-tier CEX</div></div><div class="sc-row"><div class="sc-cell ">HLP Vault</div><div class="sc-cell ">$200M+ TVL</div><div class="sc-cell ">Real revenue; fee-accrual model</div></div><div class="sc-row"><div class="sc-cell ">Airdrop (Nov 2024)</div><div class="sc-cell ">31% of supply</div><div class="sc-cell ">Largest airdrop by value in crypto history</div></div><div class="sc-row"><div class="sc-cell ">HyperEVM</div><div class="sc-cell ">Live 2025</div><div class="sc-cell ">EVM composability; DeFi ecosystem building</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Valuation Framework</span></div>
+<div class="sec-body">
+<p style="font-size:11px;color:var(--fg2);margin-bottom:10px">Per-token price at given market cap scenarios. 258M circulating; 1B max. Arithmetic: Mcap ÷ 258M. Current: $16.8B → $65.12. All % vs $65.</p><table class="mt-tbl"><thead><tr><th>Scenario</th><th>$ Mcap (circ)</th><th>HYPE Price</th><th>vs Today</th></tr></thead><tbody><tr><td>Bear — volume contraction</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$5B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$19.38</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">–70%</td></tr><tr><td>Current — today</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$16.8B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$65.12</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">—</td></tr><tr><td>Base — perps volume 3×</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$35B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$135.66</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+109%</td></tr><tr><td>Bull — institutional perps on-chain</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$70B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$271.32</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+317%</td></tr><tr><td>Extreme — exchange standard</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$150B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$581.40</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">+793%</td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Supply Architecture</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Total Supply</div><div class="fv ">1,000,000,000 HYPE (hard cap)</div></div><div class="fr"><div class="fl">Circulating Supply</div><div class="fv warn">258M HYPE (25.8%) — LOW; monitor</div></div><div class="fr"><div class="fl">Airdrop Allocation</div><div class="fv ">31% (310M) — distributed Nov 2024; in circulation</div></div><div class="fr"><div class="fl">Future Emissions</div><div class="fv warn">Team + community fund: 742M remaining; schedule TBD</div></div><div class="fr"><div class="fl">No VC Round</div><div class="fv flag">No institutional investor allocation; avoids scheduled VC dump</div></div><div class="fr"><div class="fl">Fee Buyback</div><div class="fv flag">Protocol uses trading fees to buy back HYPE; deflationary pressure</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Dimension</div><div class="sc-cell hd">Assessment</div><div class="sc-cell hd">Signal</div></div><div class="sc-row"><div class="sc-cell ">vs dYdX</div><div class="sc-cell ">Hyperliquid has 10× volume; superior UX; HL wins</div><div class="sc-cell ">Dominant</div></div><div class="sc-row"><div class="sc-cell ">vs GMX</div><div class="sc-cell ">GMX is spot+perps on Arbitrum; HL is perps-native</div><div class="sc-cell ">Differentiated</div></div><div class="sc-row"><div class="sc-cell ">CEX Competition</div><div class="sc-cell ">Binance, OKX perps colossal; on-chain share &lt;5%</div><div class="sc-cell ">Long-term</div></div><div class="sc-row"><div class="sc-cell ">Regulatory Risk</div><div class="sc-cell ">On-chain perps attract CFTC attention; jurisdiction risk</div><div class="sc-cell ">Monitor</div></div><div class="sc-row"><div class="sc-cell ">Technical Moat</div><div class="sc-cell ">Custom L1 = 2–3yr engineering lead vs EVM competitors</div><div class="sc-cell ">Strong</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Supply unlock uncertainty</strong> — 742M HYPE schedule unclear; potential for large team release</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Regulatory crackdown</strong> — On-chain perpetuals may be classified as unregistered derivatives</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Smart contract exploit</strong> — HLP vault is single-point exploit target; $200M+ at risk</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>CEX ban / geo-restriction</strong> — VPN-dependent retail; regulatory ban = volume cliff</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Technical failure</strong> — Custom L1 less battle-tested; novel consensus = novel failure modes</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl"><thead><tr><th>Catalyst</th><th>Expected Timing</th><th>Impact</th></tr></thead><tbody><tr><td>$10B+ daily perps volume</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Revenue step-change; HLP yield compelling</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>HyperEVM DeFi ecosystem</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">TVL attracts token liquidity</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Institutional market maker entry</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026–2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Tighter spreads; volume flywheel</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Regulatory framework clarity</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Removes derivative classification risk</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>CEX integration / bridge</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Fiat on-ramp to Hyperliquid perps</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div class="sec-num" style="margin:0">HYPE</div>
+<div class="posture-pill">ACTIVE RESEARCH</div>
+</div>
+<div class="posture-quote">"The CEX killer thesis — if on-chain perps grow from 5% to 30% of derivatives volume, HYPE 10×."</div>
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1);margin-top:12px">HYPE is Sub-Quadratic's highest-risk / highest-reward position. The product is demonstrably best-in-class. The risks are supply unlock uncertainty and regulatory targeting. Committee posture: 4–6% of digital allocation; accumulate on dips ($50–70, current $65); hold through $10B volume milestone; set regulatory review trigger.</p>
+</div></div>
+</div>
+
+</div>
+<!-- CANTON -->
+<div class="panel" id="p-canton">
+<div class="hero">
+<div class="hero-top">
+<div>
+<div class="htick" style="color:#8B5CF6">CANTON</div>
+<div class="hname">Canton Network — Institutional DeFi</div>
+<div class="hbadge w">Watchlist</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat"><span class="stat-v">Pre-Token (TBD)</span><span class="stat-l">Price (Nov 2026)</span></div>
+<div class="stat"><span class="stat-v">Pvt. Valued</span><span class="stat-l">Market Cap</span></div>
+<div class="stat"><span class="stat-v">N/A</span><span class="stat-l">24h Volume</span></div>
+<div class="stat"><span class="stat-v">N/A — Pre-TGE</span><span class="stat-l">Circ. Supply</span></div>
+<div class="stat"><span class="stat-v">No public token yet</span><span class="stat-l">Key Metric</span></div>
+<div class="stat"><span class="stat-v">Digital Asset / Goldman led</span><span class="stat-l">Governance</span></div>
+</div>
+</div><div class="sec">
+<div class="sec-hd"><span class="sec-num">01</span><span class="sec-title">Executive View</span></div>
+<div class="sec-body">
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1)">Canton Network is a privacy-enabled, permissioned blockchain network specifically designed for institutional capital markets — the first network to connect regulated financial institutions in a compliant, decentralised manner. Built on Digital Asset's Daml smart contract language, Canton is backed by Goldman Sachs, BNP Paribas, Cboe Global Markets, Deutsche Börse, Microsoft, and 50+ financial institutions. The network went live in May 2023 with 350+ simulated trades. Sub-Quadratic thesis: Canton is the highest-conviction pre-token institutional DeFi play — the backing quality and capital markets TAM ($100T+ global securities) are unmatched in the crypto universe. TGE catalyst is the entry trigger.</p></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">02</span><span class="sec-title">Investment Pillars</span></div>
+<div class="sec-body">
+<ol style="font-size:12.5px;line-height:1.65;color:var(--fg1);padding-left:20px"><li><strong style="color:var(--fg0)">Goldman Sachs Architecture</strong> — Goldman designed GS DAP on Canton; repo transactions, tokenised funds, and bond settlements live.</li><li><strong style="color:var(--fg0)">Privacy by Default</strong> — Daml's sub-transaction privacy: parties only see data relevant to them; compliance-ready for regulated entities.</li><li><strong style="color:var(--fg0)">Capital Markets TAM</strong> — $100T+ global securities; even 0.1% on-chain = $100B TVL; Canton positioned as the settlement layer.</li><li><strong style="color:var(--fg0)">Interoperability Layer</strong> — Canton Coin (when launched) bridges Canton to public chains; unlocks institutional liquidity for DeFi.</li><li><strong style="color:var(--fg0)">Regulatory Alignment</strong> — DTCC, Cboe involvement ensures compliance-first design; most likely to receive SEC/FCA no-action comfort.</li></ol></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">03</span><span class="sec-title">Institutional Participant Matrix</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Institution</div><div class="sc-cell hd">Sector</div><div class="sc-cell hd">Role on Canton</div></div><div class="sc-row"><div class="sc-cell ">Goldman Sachs</div><div class="sc-cell ">Investment Bank</div><div class="sc-cell ">GS DAP live; repo + bond settlement</div></div><div class="sc-row"><div class="sc-cell ">BNP Paribas</div><div class="sc-cell ">Universal Bank</div><div class="sc-cell ">Securities lending + fund tokenisation</div></div><div class="sc-row"><div class="sc-cell ">Cboe Global Markets</div><div class="sc-cell ">Exchange Operator</div><div class="sc-cell ">Digital asset derivatives settlement</div></div><div class="sc-row"><div class="sc-cell ">Deutsche Börse</div><div class="sc-cell ">Exchange / CSD</div><div class="sc-cell ">T2S integration; settlement finality</div></div><div class="sc-row"><div class="sc-cell ">Microsoft Azure</div><div class="sc-cell ">Cloud</div><div class="sc-cell ">Infrastructure provider; compute layer</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">04</span><span class="sec-title">Comparable Valuation Framework</span></div>
+<div class="sec-body">
+<p style="font-size:11px;color:var(--fg2);margin-bottom:10px">No public token yet. Comparable analysis based on institutional DLT network analogues at TGE.</p><table class="mt-tbl"><thead><tr><th>Comparable Network</th><th>Mcap at Peak</th><th>Key Metric</th><th>Canton Analogue</th></tr></thead><tbody><tr><td>Hedera (HBAR)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$12B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Fortune 500 council</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Council = 50+ TradFi institutions</td></tr><tr><td>Quant (QNT)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$6B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Enterprise middleware</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Canton = settlement layer</td></tr><tr><td>XDC Network</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$2B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Trade finance focus</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Canton = capital markets focus</td></tr><tr><td>Polkadot (DOT)</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">$55B</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Interoperability hub</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Canton = inter-institution bridge</td></tr></tbody></table><div class="callout">Sub-Quadratic target range: $3B–$15B Mcap at TGE depending on token distribution model and staking mechanics. Watch Digital Asset announcements for tokenomics.</div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">05</span><span class="sec-title">Network Architecture</span></div>
+<div class="sec-body">
+<div class="fr"><div class="fl">Consensus Model</div><div class="fv ">BFT-based Canton consensus; privacy-preserving sub-transaction model</div></div><div class="fr"><div class="fl">Smart Contract Language</div><div class="fv ">Daml (Digital Asset Modelling Language) — purpose-built for financial contracts</div></div><div class="fr"><div class="fl">Privacy Model</div><div class="fv flag">Sub-transaction privacy: counterparties see only their data</div></div><div class="fr"><div class="fl">Public Interop</div><div class="fv flag">Canton Coin (TGE TBD): bridge to Ethereum/Solana/public chains</div></div><div class="fr"><div class="fl">Live Transactions</div><div class="fv ">350+ institutional transactions in May 2023 pilot; production TBD</div></div><div class="fr"><div class="fl">Custody</div><div class="fv ">Institutional-grade; not consumer custody; regulated participant model</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">06</span><span class="sec-title">Strategic Landscape</span></div>
+<div class="sec-body">
+<div class="sc-grid"><div class="sc-row"><div class="sc-cell hd">Dimension</div><div class="sc-cell hd">Assessment</div><div class="sc-cell hd">Signal</div></div><div class="sc-row"><div class="sc-cell ">vs Ethereum (institutional)</div><div class="sc-cell ">Canton has privacy + compliance; ETH is public</div><div class="sc-cell ">Differentiated</div></div><div class="sc-row"><div class="sc-cell ">vs R3 Corda</div><div class="sc-cell ">Canton interoperable + public chain bridge; Corda closed</div><div class="sc-cell ">Ahead</div></div><div class="sc-row"><div class="sc-cell ">vs DTCC (centralised)</div><div class="sc-cell ">Canton is decentralised settlement; DTCC legacy replacement</div><div class="sc-cell ">Long-term</div></div><div class="sc-row"><div class="sc-cell ">TGE Timing</div><div class="sc-cell ">No confirmed date; operator should monitor 2026-2027 window</div><div class="sc-cell ">Critical Watch</div></div><div class="sc-row"><div class="sc-cell ">Token Distribution</div><div class="sc-cell ">Tokenomics TBD; could be validator-only or broad retail</div><div class="sc-cell ">Key Risk</div></div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">07</span><span class="sec-title">Risk Register</span></div>
+<div class="sec-body">
+<div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>No public token</strong> — Pre-token: investment currently via private equity or Canton Coin TGE only</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>TGE timing unknown</strong> — 2026–2027 estimated; could be delayed or cancelled</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Tokenomics risk</strong> — Unfavourable distribution (institutional only) could limit retail upside</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Competing institutional chains</strong> — Hedera, XDC, Quorum competing for same institutional mandate</div></div><div class="ri-row"><div class="ri-dot2"></div><div class="ri-txt"><strong>Regulatory classification</strong> — Token launch post-MiCA/SEC clarity needed; regulatory uncertainty on securities status</div></div></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">08</span><span class="sec-title">2027 Conviction Catalysts</span></div>
+<div class="sec-body">
+<table class="mt-tbl"><thead><tr><th>Catalyst</th><th>Expected Timing</th><th>Impact</th></tr></thead><tbody><tr><td>Canton Coin TGE announcement</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026–2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Primary entry trigger for Sub-Q</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Goldman production settlement</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Real capital markets volume proof</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>DTCC Canton integration</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">US clearing house adoption</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Cross-chain Canton bridge live</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2027</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">Institutional liquidity → public DeFi</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr><tr><td>Regulatory sandbox approval</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">2026</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace">FCA/SEC comfort letter</td><td style="color:var(--fg0);font-family:'JetBrains Mono',monospace"></td></tr></tbody></table></div>
+</div>
+<div class="sec">
+<div class="sec-hd"><span class="sec-num">09</span><span class="sec-title">Committee Posture</span></div>
+<div class="sec-body">
+<div class="posture-blk">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div class="sec-num" style="margin:0">CANTON</div>
+<div class="posture-pill">WATCHLIST — PRE-TGE</div>
+</div>
+<div class="posture-quote">"Highest institutional backing quality in the portfolio. TGE is the trigger — size immediately on announcement."</div>
+<p style="font-size:12.5px;line-height:1.65;color:var(--fg1);margin-top:12px">Canton represents the Sub-Quadratic highest-conviction pre-token thesis. No other network has Goldman Sachs, BNP Paribas, Deutsche Börse, and Cboe as active participants. The capital markets TAM is the largest addressable market in this portfolio. Strategy: monitor Digital Asset / Canton Network announcements weekly; pre-allocate 10% of digital budget for TGE participation within 48 hours of announcement. Post-TGE target sizing: 8–12% of digital allocation.</p>
+</div></div>
+</div>
+
+</div>
+
+<footer>Sub-Quadratic Research Desk &nbsp;·&nbsp; London &nbsp;·&nbsp; For internal committee use only. Not investment advice. &copy; 2026</footer>
+
+<script>
+(function(){
+var btns=document.querySelectorAll('.tbtn');
+var panels=document.querySelectorAll('.panel');
+function show(t){
+panels.forEach(function(p){p.classList.remove('on')});
+btns.forEach(function(b){b.classList.remove('on')});
+var p=document.getElementById('p-'+t);
+var b=document.querySelector('[data-t="'+t+'"]');
+if(p){p.classList.add('on');window.scrollTo(0,0)}
+if(b)b.classList.add('on');
+}
+btns.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.t)})});
+window.showToken=show;
+show('qnt');
+})();
+</script>
+
+
+<script type="importmap">{"imports":{"react":"https://cdn.jsdelivr.net/npm/react@18.3.1/+esm","react-dom":"https://cdn.jsdelivr.net/npm/react-dom@18.3.1/+esm","ogl":"https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm"}}</script>
+<script type="module">
+import React,{useEffect,useRef,useState,createElement}from'react';
+import ReactDOM from'react-dom';
+import{Renderer,Program,Mesh,Triangle,Plane,Texture,RenderTarget}from'ogl';
+const h=createElement;
+const{createRoot}=ReactDOM;
+const BEND_PRESETS={liquid:{lensWidth:.74,lensHeight:1.18,tilt:62,roundness:1,bend:.34,reach:.38,curl:'twist',dispersion:.45,liquid:0,followCursor:false},ribbon:{lensWidth:.8,lensHeight:.8,tilt:0,roundness:1,bend:.34,reach:.34,curl:'twist',dispersion:.4,liquid:0,followCursor:false},vortex:{lensWidth:.7,lensHeight:.95,tilt:30,roundness:1,bend:.46,reach:.3,curl:'twist',dispersion:.5,liquid:0,followCursor:false},arch:{lensWidth:.8,lensHeight:.8,tilt:0,roundness:1,bend:.3,reach:.36,curl:'rise',dispersion:.4,liquid:0,followCursor:false}};
+const FIT_ASPECT={portrait:.75,square:1,landscape:4/3};
+const TAPS=12,PIXEL_BUDGET=4.5e6;
+const INTRO_DURATION={rise:2.1,bloom:1.6,spin:2.2,deal:1.5,fade:.35};
+const wrap=(v,s)=>((((v+s/2)%s)+s)%s)-s/2;
+const clamp01=v=>Math.min(Math.max(v,0),1);
+const easeOut=v=>1-Math.pow(1-clamp01(v),3);
+const easeOutQuint=v=>1-Math.pow(1-clamp01(v),5);
+const easeInOut=v=>{const t=clamp01(v);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const cardVertex=`#version 300 es
+in vec3 position;in vec2 uv;uniform vec4 uRect;uniform vec2 uResolution;out vec2 vUv;out vec2 vLocal;
+void main(){vUv=uv;vLocal=vec2(position.x,-position.y)*uRect.zw;vec2 px=uRect.xy+vLocal;gl_Position=vec4(px.x/uResolution.x*2.0-1.0,1.0-px.y/uResolution.y*2.0,0.0,1.0);}`;
+const cardFragment=`#version 300 es
+precision highp float;uniform sampler2D tMap;uniform vec2 uSize;uniform vec2 uImage;uniform float uRadius;uniform float uAlpha;uniform float uReady;uniform float uShift;uniform float uDpr;uniform vec3 uPlaceholder;in vec2 vUv;in vec2 vLocal;out vec4 fragColor;
+float roundedBox(vec2 p,vec2 b,float r){vec2 q=abs(p)-b+r;return length(max(q,0.0))+min(max(q.x,q.y),0.0)-r;}
+void main(){float sd=roundedBox(vLocal,uSize*.5,min(uRadius,min(uSize.x,uSize.y)*.5));float mask=clamp(.5-sd*uDpr,0.0,1.0);vec2 local=vLocal/uSize+.5;float cardAspect=uSize.x/uSize.y;float imageAspect=uImage.x/max(uImage.y,1.0);vec2 scale=imageAspect>cardAspect?vec2(cardAspect/imageAspect,1.0):vec2(1.0,imageAspect/cardAspect);scale/=1.08;vec2 uv=vec2(local.x,1.0-local.y);uv=(uv-.5)*scale+.5;uv.x+=uShift*(1.0-scale.x)*.5;vec3 image=texture(tMap,uv).rgb;vec3 color=mix(uPlaceholder,image,uReady);float alpha=mask*uAlpha;fragColor=vec4(color*alpha,alpha);}`;
+const lensVertex=`#version 300 es
+in vec2 position;void main(){gl_Position=vec4(position,0.0,1.0);}`;
+const lensFragment=`#version 300 es
+precision highp float;uniform sampler2D tScene;uniform vec2 uResolution;uniform float uDpr;uniform vec2 uCenter;uniform vec2 uHalf;uniform float uAngle;uniform float uExponent;uniform float uInner;uniform float uOuter;uniform float uFlow;uniform float uCurl;uniform float uDispersion;uniform float uStrength;uniform float uSceneAlpha;out vec4 fragColor;
+void main(){vec2 frag=gl_FragCoord.xy/uDpr;vec2 uv=frag/uResolution;vec2 rel=frag-vec2(uCenter.x,uResolution.y-uCenter.y);float ca=cos(uAngle);float sa=sin(uAngle);vec2 local=vec2(ca*rel.x+sa*rel.y,-sa*rel.x+ca*rel.y);vec2 k=max(abs(local)/uHalf,vec2(1e-5));float nd=pow(pow(k.x,uExponent)+pow(k.y,uExponent),1.0/uExponent);vec2 grad=pow(k,vec2(uExponent-1.0))*sign(local)/uHalf*pow(nd,1.0-uExponent);float glen=max(length(grad),1e-6);float edge=(nd-1.0)/glen;vec2 outward=grad/glen;vec2 normal=vec2(ca*outward.x-sa*outward.y,sa*outward.x+ca*outward.y);vec2 along=vec2(-normal.y,normal.x);float t=clamp((edge+uInner)/(uInner+uOuter),0.0,1.0);float ramp=t*t*t*(t*(t*6.0-15.0)+10.0);float slope=16.0*t*t*(1.0-t)*(1.0-t);float reachX=rel.x/(uResolution.x*.5);float side=smoothstep(.02,.3,abs(reachX))*(uCurl==0.0?sign(reachX):uCurl);float lift=ramp*side*uFlow*uStrength;vec2 swirl=along*along.y*side*slope*uFlow*uStrength*.35;vec2 drift=vec2(0.0,-lift)-swirl;vec2 shifted=uv+drift/uResolution;vec2 texels=uResolution*uDpr;vec2 gx=dFdx(shifted);vec2 gy=dFdy(shifted);gx*=min(1.0,3.0/max(length(gx*texels),1e-4));gy*=min(1.0,3.0/max(length(gy*texels),1e-4));vec4 color=textureGrad(tScene,shifted,gx,gy);vec2 spread=vec2(0.0,side*slope*uFlow*uStrength)/uResolution*uDispersion;float spreadPx=length(spread*texels);if(color.a>.002&&spreadPx>.25){vec3 base=color.rgb/color.a;vec3 sumColor=vec3(0.0);vec3 sumWeight=vec3(0.0);for(int i=0;i<${TAPS};i++){float s=(float(i)+.5)/float(${TAPS});vec4 c=textureGrad(tScene,shifted+spread*(s-.5),gx,gy);vec3 w=max(1.0-abs(vec3(s)-vec3(.15,.5,.85))*2.6,0.0)*c.a;sumColor+=c.rgb*(w/max(c.a,.002));sumWeight+=w;}vec3 split=mix(base,sumColor/max(sumWeight,vec3(1e-4)),clamp(sumWeight*2.0,0.0,1.0));color.rgb=mix(color.rgb,clamp(split,0.0,1.0)*color.a,smoothstep(.25,1.5,spreadPx));}fragColor=color*uSceneAlpha;}`;
+const Digits=({value})=>h('span',{className:'flex-carousel__digits'},...String(value).padStart(2,'0').split('').map((digit,index)=>h('span',{key:index,className:'flex-carousel__digit'},h('span',{className:'flex-carousel__reel',style:{transform:`translateY(${-Number(digit)*10}%)`}},...'0123456789'.split('').map(n=>h('span',{key:n},n))))));
+const FlexCarousel=({items,preset='liquid',intro='rise',cardHeight=.5,gap=12,radius=0,fit='natural',lensWidth,lensHeight,tilt,roundness,bend,reach,curl,dispersion,liquid,followCursor,squeeze=.2,focusOnClick=true,autoplay=false,interval=4,captions=true,captureWheel=true,onChange,onSelect,className='',style})=>{
+const containerRef=useRef(null),settingsRef=useRef(null),itemsRef=useRef(items),engineRef=useRef(null),callbacksRef=useRef({onChange,onSelect});
+const[active,setActive]=useState(0),[revealed,setRevealed]=useState(false),[focusOpen,setFocusOpen]=useState(false);
+const base=BEND_PRESETS[preset]||BEND_PRESETS.liquid,pick=(v,k)=>(v===undefined||v===null?base[k]:v);
+const list=items&&items.length?items:[],itemsKey=list.map(i=>i.src).join('|');
+useEffect(()=>{itemsRef.current=list;callbacksRef.current={onChange,onSelect};settingsRef.current={intro,cardHeight,gap,radius,fit,lensWidth:pick(lensWidth,'lensWidth'),lensHeight:pick(lensHeight,'lensHeight'),tilt:pick(tilt,'tilt'),roundness:pick(roundness,'roundness'),bend:pick(bend,'bend'),reach:pick(reach,'reach'),curl:pick(curl,'curl'),dispersion:pick(dispersion,'dispersion'),liquid:pick(liquid,'liquid'),followCursor:pick(followCursor,'followCursor'),squeeze,focusOnClick,autoplay,interval,captureWheel};engineRef.current?.wake();});
+useEffect(()=>{engineRef.current?.setItems(itemsRef.current);},[itemsKey]);
+useEffect(()=>{
+const container=containerRef.current;if(!container)return undefined;
+const renderer=new Renderer({dpr:Math.min(window.devicePixelRatio||1,2),alpha:true,premultipliedAlpha:true,antialias:false,depth:false});
+const gl=renderer.gl;if(!renderer.isWebgl2){gl.getExtension('WEBGL_lose_context')?.loseContext();return undefined;}
+gl.clearColor(0,0,0,0);const canvas=gl.canvas;canvas.style.display='block';canvas.style.width='100%';canvas.style.height='100%';canvas.setAttribute('aria-hidden','true');container.prepend(canvas);
+const cardProgram=new Program(gl,{vertex:cardVertex,fragment:cardFragment,transparent:true,depthTest:false,depthWrite:false,uniforms:{tMap:{value:new Texture(gl)},uRect:{value:[0,0,1,1]},uResolution:{value:[1,1]},uSize:{value:[1,1]},uImage:{value:[1,1]},uRadius:{value:16},uAlpha:{value:1},uReady:{value:0},uShift:{value:0},uDpr:{value:1},uPlaceholder:{value:[.5,.5,.5]}}});
+cardProgram.setBlendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);const cardMesh=new Mesh(gl,{geometry:new Plane(gl),program:cardProgram});
+const target=new RenderTarget(gl,{width:2,height:2,depth:false,minFilter:gl.LINEAR_MIPMAP_LINEAR,magFilter:gl.LINEAR});
+const lensUniforms={tScene:{value:target.texture},uResolution:{value:[1,1]},uDpr:{value:1},uCenter:{value:[0,0]},uHalf:{value:[1,1]},uAngle:{value:0},uExponent:{value:2},uInner:{value:60},uOuter:{value:80},uFlow:{value:0},uCurl:{value:0},uDispersion:{value:0},uStrength:{value:0},uSceneAlpha:{value:0}};
+const lensMesh=new Mesh(gl,{geometry:new Triangle(gl),program:new Program(gl,{vertex:lensVertex,fragment:lensFragment,uniforms:lensUniforms,depthTest:false,depthWrite:false})});
+const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches??false;
+const anisotropy=renderer.getExtension('EXT_texture_filter_anisotropic')?8:0;
+let slots=[],width=1,height=1,pos=0,vel=0,goal=0,mode='spring',wheelAt=0,raf=0,last=performance.now(),visible=true,alive=true,dirty=true,activeIndex=-1,interactedAt=-Infinity,autoplayAt=performance.now(),hasFocus=false,deform=0,deformVel=0,layout=null,resnap=false,hover='',lift=1,energy=0,lastPos=0;
+const lens={x:0,y:0,vx:0,vy:0,ready:false},pointer={x:0,y:0,over:false,down:false,id:-1,startX:0,startY:0,startPos:0,dragging:false,touch:false,samples:[]};
+const introState={kind:'none',t:0,running:false,done:false,readyAt:0},focus={index:-1,pending:-1,t:0,v:0,target:0};
+let instances=[];
+const loadSlot=(item,index)=>{const texture=new Texture(gl,{generateMipmaps:true,minFilter:gl.LINEAR_MIPMAP_LINEAR,magFilter:gl.LINEAR,anisotropy});const slot={item,index,texture,aspect:.8,loaded:false,failed:false,ready:0,color:[.5,.5,.5],image:[1,1],dispose:()=>{}};const image=new Image();image.crossOrigin='anonymous';image.decoding='async';image.onload=()=>{if(!alive||!slots.includes(slot))return;texture.image=image;texture.update();slot.image=[image.naturalWidth||1,image.naturalHeight||1];slot.aspect=slot.image[0]/slot.image[1];try{const probe=document.createElement('canvas');probe.width=8;probe.height=8;const ctx=probe.getContext('2d',{willReadFrequently:true});if(ctx){ctx.drawImage(image,0,0,8,8);const data=ctx.getImageData(0,0,8,8).data;const avg=[0,0,0];for(let i=0;i<data.length;i+=4){avg[0]+=data[i];avg[1]+=data[i+1];avg[2]+=data[i+2];}slot.color=avg.map(v=>v/64/255);}}catch{slot.color=[.5,.5,.5];}slot.loaded=true;dirty=true;start();};image.onerror=()=>{if(!alive)return;slot.failed=true;dirty=true;start();};image.src=item.src;slot.dispose=()=>{image.onload=null;image.onerror=null;gl.deleteTexture(texture.texture);};return slot;};
+const setItems=next=>{slots.forEach(s=>s.dispose());slots=next.map(loadSlot);activeIndex=-1;layout=null;resnap=true;focus.target=0;focus.t=0;focus.v=0;focus.pending=-1;setFocusOpen(false);introState.readyAt=performance.now();dirty=true;start();};
+const metrics=s=>{const cardH=Math.max(24,s.cardHeight*height);const fixed=FIT_ASPECT[s.fit];const widths=slots.map(slot=>(fixed||slot.aspect)*cardH);const centers=[];let cursor=0;for(let i=0;i<widths.length;i++){centers.push(cursor+widths[i]/2);cursor+=widths[i]+s.gap;}return{cardH,widths,centers,gap:s.gap,loop:Math.max(cursor,1)};};
+const nearest=(m,at)=>{let best=0,bestDist=Infinity;for(let i=0;i<m.centers.length;i++){const dist=Math.abs(wrap(m.centers[i]-at,m.loop));if(dist<bestDist){bestDist=dist;best=i;}}return best;};
+const snapPoint=(m,at)=>{const i=nearest(m,at);return at+wrap(m.centers[i]-at,m.loop);};
+const remap=(from,to,at)=>{const i=nearest(from,at);const offset=wrap(at-from.centers[i],from.loop);const cycles=Math.round((at-offset-from.centers[i])/from.loop);return cycles*to.loop+to.centers[i]+offset*(to.widths[i]/from.widths[i]);};
+const stepFn=(m,delta)=>{let at=snapPoint(m,goal);let index=nearest(m,at);const n=m.centers.length;for(let k=0;k<Math.abs(delta);k++){const next=(index+(delta>0?1:n-1))%n;const dist=delta>0?m.widths[index]/2+m.gap+m.widths[next]/2:-(m.widths[next]/2+m.gap+m.widths[index]/2);at+=dist;index=next;}goal=at;mode='spring';dirty=true;start();};
+const goTo=(m,index)=>{const i=((index%m.centers.length)+m.centers.length)%m.centers.length;goal=goal+wrap(m.centers[i]-goal,m.loop);mode='spring';dirty=true;start();};
+const openFocus=index=>{focus.index=index;focus.pending=-1;focus.target=1;setFocusOpen(true);dirty=true;start();};
+const closeFocus=()=>{focus.pending=-1;if(focus.target===0)return false;focus.target=0;setFocusOpen(false);dirty=true;start();return true;};
+const skipIntro=()=>{if(introState.running)introState.t=1;};
+const introEffects=()=>{const t=introState.running?introState.t:introState.done?1:0;const e={sceneAlpha:1,strength:1,card:null};if(!introState.done&&!introState.running){e.sceneAlpha=0;e.strength=0;return e;}if(t>=1)return e;const kind=introState.kind;if(kind==='rise'){e.strength=easeInOut((t-.3)/.65);e.card=rel=>{const delay=Math.min(Math.abs(rel)/(width*.6),1)*.34;const local=clamp01((t-delay)/.6);return{alpha:clamp01(local*4),x:0,y:(1-easeOutQuint(local))*height*.62,scale:.5+.5*easeInOut((local-.18)/.82)};};}else if(kind==='bloom'){e.strength=easeInOut((t-.2)/.8);e.card=rel=>{const delay=Math.min(Math.abs(rel)/(width*.6),1)*.25;const local=easeOut((t-delay)/.55);return{alpha:local,x:0,y:0,scale:.92+.08*local};};}else if(kind==='spin'){e.sceneAlpha=easeOut(t/.25);e.strength=easeOut((t-.55)/.45);}else if(kind==='deal'){e.strength=easeOut((t-.45)/.5);e.card=rel=>{const spread=Math.min(Math.abs(rel)/(width*.6),1)*.3;const local=easeOut((t-.12-spread)/.5);return{alpha:easeOut((t-spread)/.12),x:-rel*(1-local),y:0,scale:1};};}else{e.sceneAlpha=easeOut(t);e.strength=easeOut(t);}return e;};
+const beginIntro=(s,m)=>{const kind=reducedMotion&&s.intro!=='none'?'fade':s.intro;introState.kind=INTRO_DURATION[kind]?kind:'none';introState.running=introState.kind!=='none';introState.done=!introState.running;introState.t=0;if(introState.done)setRevealed(true);if(introState.kind==='spin'){const distance=m.loop*1.6+width;pos=goal+distance;vel=-distance*3;mode='spring';}};
+let resizePending=false;
+const applyResize=()=>{width=Math.max(1,container.clientWidth);height=Math.max(1,container.clientHeight);renderer.dpr=Math.min(window.devicePixelRatio||1,2,Math.sqrt(PIXEL_BUDGET/(width*height)));renderer.setSize(width,height);target.setSize(Math.max(2,Math.round(width*renderer.dpr)),Math.max(2,Math.round(height*renderer.dpr)));lensUniforms.tScene.value=target.texture;dirty=true;};
+const resize=()=>{resizePending=true;start();};
+const frame=now=>{raf=0;if(resizePending){resizePending=false;applyResize();}if(!alive)return;const s=settingsRef.current;const dt=Math.min(.05,Math.max(.001,(now-last)/1000));last=now;if(!s||!slots.length){if(visible)raf=requestAnimationFrame(frame);return;}const m=metrics(s);const n=slots.length;let animating=false;
+if(resnap){goal=snapPoint(m,goal);pos=goal;vel=0;resnap=false;}else if(layout&&layout.loop!==m.loop){pos=remap(layout,m,pos);goal=remap(layout,m,goal);pointer.startPos=pos+(pointer.x-pointer.startX);animating=true;}layout=m;
+if(!introState.running&&!introState.done){const allSettled=slots.every(sl=>sl.loaded||sl.failed);if(allSettled||now-introState.readyAt>3500){goal=snapPoint(m,goal);pos=goal;beginIntro(s,m);}}
+if(introState.running){introState.t=Math.min(1,introState.t+dt/(INTRO_DURATION[introState.kind]||1));if(introState.t>=1){introState.running=false;introState.done=true;setRevealed(true);}animating=true;}
+if(mode==='wheel'&&now-wheelAt>150){goal=snapPoint(m,goal);mode='spring';}
+if(!pointer.dragging){const spinning=introState.running&&introState.kind==='spin';const stiffness=spinning?9:mode==='wheel'?80:55;const damping=2*Math.sqrt(stiffness);const steps=Math.ceil(dt/(1/240));const hh=dt/steps;for(let i=0;i<steps;i++){const acc=stiffness*(goal-pos)-damping*vel;vel+=acc*hh;pos+=vel*hh;}if(Math.abs(goal-pos)<.05&&Math.abs(vel)<.5){pos=goal;vel=0;}else animating=true;}else animating=true;
+if(Math.abs(pos)>m.loop*8){const shift=Math.round(pos/m.loop)*m.loop;pos-=shift;goal-=shift;pointer.startPos-=shift;}
+const current=nearest(m,pos);if(current!==activeIndex){activeIndex=current;setActive(current);callbacksRef.current.onChange?.(current,itemsRef.current[current]);}
+if(focus.pending>=0&&mode==='spring'&&Math.abs(goal-pos)<1.5&&Math.abs(vel)<30){if(current===focus.pending)openFocus(current);else focus.pending=-1;}
+if(s.autoplay&&!reducedMotion&&introState.done&&focus.target===0&&focus.t<.01&&!pointer.over&&!pointer.down&&!hasFocus&&mode==='spring'&&Math.abs(goal-pos)<1&&now-interactedAt>3000&&now-autoplayAt>s.interval*1000){autoplayAt=now;stepFn(m,1);}
+if(s.autoplay&&!reducedMotion)animating=true;
+const travel=Math.abs(pos-lastPos)/dt;lastPos=pos;const energyTarget=reducedMotion?0:Math.min(travel/2600,1);energy+=(energyTarget-energy)*(1-Math.exp(-dt/(energyTarget>energy?.07:.35)));if(energy>.001)animating=true;
+const liquidAmount=reducedMotion?0:s.liquid;const push=Math.max(-1,Math.min(1,vel/2200));const ds=120,dd=2*Math.sqrt(ds)*.32;deformVel+=(ds*(push-deform)-dd*deformVel)*dt;deform+=deformVel*dt;if(Math.abs(deform)>.0005||Math.abs(deformVel)>.005)animating=true;
+const fs=64;focus.v+=(fs*(focus.target-focus.t)-2*Math.sqrt(fs)*focus.v)*dt;focus.t+=focus.v*dt;if(Math.abs(focus.target-focus.t)<.0005&&Math.abs(focus.v)<.001){focus.t=focus.target;focus.v=0;}else animating=true;
+const focusAmount=clamp01(focus.t),focusEase=easeInOut(focusAmount),focusW=focus.index>=0&&focus.index<n?m.widths[focus.index]:m.cardH;
+const focusScale=Math.max(1,Math.min(1.3,(height*.84)/m.cardH,(width*.92)/focusW));const nextLift=1+(focusScale-1)*focusEase;if(Math.abs(nextLift-lift)>.0005){lift=nextLift;container.style.setProperty('--flex-carousel-lift',lift.toFixed(4));}
+const effects=introEffects();const homeX=width/2,homeY=height/2;const follow=s.followCursor&&pointer.over&&!pointer.dragging&&!pointer.touch&&focus.target===0;const aimX=follow?pointer.x:homeX,aimY=follow?pointer.y:homeY;
+if(!lens.ready){lens.x=homeX;lens.y=homeY;lens.ready=true;}
+const lensK=110,lensC=2*Math.sqrt(lensK)*.8;lens.vx+=(lensK*(aimX-lens.x)-lensC*lens.vx)*dt;lens.vy+=(lensK*(aimY-lens.y)-lensC*lens.vy)*dt;lens.x+=lens.vx*dt;lens.y+=lens.vy*dt;if(Math.abs(aimX-lens.x)+Math.abs(aimY-lens.y)>.2||Math.abs(lens.vx)+Math.abs(lens.vy)>.5)animating=true;
+const cardH=m.cardH;let halfW=(s.lensWidth*width)/2,halfH=(s.lensHeight*width)/2;const squash=Math.abs(deform)*liquidAmount;halfW*=1+squash*.16;halfH*=1-squash*.08;const lensX=lens.x-deform*14*liquidAmount;
+for(let i=0;i<n;i++){const sl=slots[i];if(sl.loaded&&sl.ready<1){sl.ready=Math.min(1,sl.ready+dt/.45);animating=true;}}
+const waiting=!introState.done;
+if(dirty||animating||pointer.dragging){dirty=false;instances=[];const dpr=renderer.dpr;cardProgram.uniforms.uResolution.value=[width,height];cardProgram.uniforms.uDpr.value=dpr;cardProgram.uniforms.uRadius.value=s.radius;const shrink=1-clamp01(s.squeeze)*energy;const draws=[];
+for(let i=0;i<n;i++){const w=m.widths[i];const baseRel=wrap(m.centers[i]-pos,m.loop);for(let k=-3;k<=3;k++){const rel=baseRel+k*m.loop;if(Math.abs(rel)-w/2>width+40)continue;const fx=effects.card?effects.card(rel):null;let x=homeX+rel+(fx?fx.x:0);let scale=shrink*(fx?fx.scale:1);let alpha=fx?fx.alpha:1;if(focusAmount>0){if(i===focus.index&&Math.abs(rel)<w){scale*=1+(focusScale-1)*focusEase;}else{const order=Math.min(Math.abs(rel)/width,1)*.25;const part=easeInOut(focusAmount*1.25-order);x+=Math.sign(rel)*part*width*.7;alpha*=1-part;}}const cw=w*scale;if(alpha<=.001||x+cw/2<-40||x-cw/2>width+40)continue;draws.push({i,rel,x,y:homeY+(fx?fx.y:0),cw,ch:cardH*scale,alpha});}}
+draws.sort((a,b)=>Math.abs(b.rel)-Math.abs(a.rel));let first=true;
+for(const draw of draws){const sl=slots[draw.i];cardProgram.uniforms.tMap.value=sl.texture;cardProgram.uniforms.uRect.value=[draw.x,draw.y,draw.cw+2,draw.ch+2];cardProgram.uniforms.uSize.value=[draw.cw,draw.ch];cardProgram.uniforms.uImage.value=sl.image;cardProgram.uniforms.uAlpha.value=draw.alpha;cardProgram.uniforms.uReady.value=sl.ready;cardProgram.uniforms.uShift.value=reducedMotion?0:Math.max(-1,Math.min(1,draw.rel/(width*.75)));cardProgram.uniforms.uPlaceholder.value=sl.color;renderer.render({scene:cardMesh,target,clear:first});first=false;instances.push({index:draw.i,x0:draw.x-draw.cw/2,x1:draw.x+draw.cw/2,y0:draw.y-draw.ch/2,y1:draw.y+draw.ch/2});}
+if(first){renderer.bindFramebuffer(target);gl.viewport(0,0,target.width,target.height);gl.clear(gl.COLOR_BUFFER_BIT);}
+renderer.bindFramebuffer();target.texture.bind();gl.generateMipmap(gl.TEXTURE_2D);
+lensUniforms.uResolution.value=[width,height];lensUniforms.uDpr.value=dpr;lensUniforms.uCenter.value=[lensX,lens.y];lensUniforms.uHalf.value=[Math.max(halfW,1),Math.max(halfH,1)];lensUniforms.uAngle.value=(s.tilt*Math.PI)/180;lensUniforms.uExponent.value=2+Math.pow(1-clamp01(s.roundness),1.5)*10;const spanW=Math.max(halfW,1),spanH=Math.max(halfH,1);const inner=Math.max(4,s.reach*(spanW+spanH)*.5);lensUniforms.uInner.value=inner;lensUniforms.uOuter.value=inner*1.6;lensUniforms.uFlow.value=s.bend*(spanW+spanH)*.45;lensUniforms.uCurl.value=s.curl==='rise'?1:s.curl==='fall'?-1:0;lensUniforms.uDispersion.value=s.dispersion*.12*(1+Math.abs(deform)*liquidAmount*1.2);lensUniforms.uStrength.value=effects.strength*(1-focusEase);lensUniforms.uSceneAlpha.value=effects.sceneAlpha;renderer.render({scene:lensMesh});}
+let nextHover='';if(pointer.over&&!pointer.dragging&&introState.done&&s.focusOnClick){const hit=instances.find(inst=>pointer.x>=inst.x0&&pointer.x<=inst.x1&&pointer.y>=inst.y0&&pointer.y<=inst.y1);if(focus.target>0)nextHover='close';else if(hit)nextHover='open';}
+if(nextHover!==hover){hover=nextHover;if(hover)container.setAttribute('data-hover',hover);else container.removeAttribute('data-hover');}
+if(visible&&(animating||waiting||dirty||pointer.down))raf=requestAnimationFrame(frame);};
+const start=()=>{if(raf||!visible||!alive)return;last=performance.now();raf=requestAnimationFrame(frame);};
+const localPoint=e=>{const rect=container.getBoundingClientRect();return[e.clientX-rect.left,e.clientY-rect.top];};
+const onPointerDown=e=>{if(e.button!==undefined&&e.button>0)return;skipIntro();const[x,y]=localPoint(e);pointer.down=true;pointer.id=e.pointerId;pointer.touch=e.pointerType==='touch';pointer.startX=x;pointer.startY=y;pointer.x=x;pointer.y=y;pointer.startPos=pos;pointer.dragging=false;pointer.samples=[{x,t:performance.now()}];interactedAt=performance.now();if(Math.abs(vel)>40){goal=pos;vel=0;}dirty=true;start();};
+const onPointerMove=e=>{const[x,y]=localPoint(e);pointer.x=x;pointer.y=y;pointer.over=true;if(pointer.down&&e.pointerId===pointer.id){const dx=x-pointer.startX,dy=y-pointer.startY,slop=pointer.touch?10:5;if(!pointer.dragging){if(pointer.touch&&Math.abs(dy)>slop&&Math.abs(dy)>Math.abs(dx)){pointer.down=false;return;}if(Math.abs(dx)>slop){pointer.dragging=true;pointer.startX=x;pointer.startPos=pos;closeFocus();try{container.setPointerCapture(e.pointerId);}catch{pointer.dragging=true;}container.setAttribute('data-dragging','');}}if(pointer.dragging){pos=pointer.startPos-(x-pointer.startX);goal=pos;vel=0;const now=performance.now();pointer.samples.push({x,t:now});while(pointer.samples.length>2&&now-pointer.samples[0].t>100)pointer.samples.shift();}}dirty=true;start();};
+const onPointerUp=e=>{if(!pointer.down||e.pointerId!==pointer.id)return;pointer.down=false;container.removeAttribute('data-dragging');const s=settingsRef.current;if(!s)return;const m=metrics(s);interactedAt=performance.now();if(pointer.dragging){pointer.dragging=false;const now=performance.now();const first=pointer.samples[0],lastS=pointer.samples[pointer.samples.length-1];let velocity=0;if(first&&lastS&&lastS.t>first.t&&now-lastS.t<70){velocity=-((lastS.x-first.x)/(lastS.t-first.t))*1000;}vel=velocity;const landing=snapPoint(m,pos+velocity*.32);goal=landing;if(Math.abs(velocity)>400&&Math.abs(landing-pos)<1)stepFn(m,velocity>0?1:-1);mode='spring';start();return;}if(closeFocus())return;const[x,y]=localPoint(e);const hit=instances.find(inst=>x>=inst.x0&&x<=inst.x1&&y>=inst.y0&&y<=inst.y1);if(!hit)return;if(hit.index===activeIndex&&Math.abs(goal-pos)<2){callbacksRef.current.onSelect?.(hit.index,itemsRef.current[hit.index]);if(s.focusOnClick)openFocus(hit.index);}else{const rel=(hit.x0+hit.x1)/2-width/2;goal=snapPoint(m,pos+rel);mode='spring';if(s.focusOnClick)focus.pending=hit.index;start();}};
+const onPointerLeave=()=>{pointer.over=false;dirty=true;start();};
+const onPointerCancel=()=>{pointer.down=false;pointer.dragging=false;container.removeAttribute('data-dragging');const s=settingsRef.current;if(!s)return;goal=snapPoint(metrics(s),pos);mode='spring';start();};
+const onWheel=e=>{const s=settingsRef.current;if(!s||e.ctrlKey)return;let dx=e.deltaX,dy=e.deltaY;if(e.shiftKey&&Math.abs(dx)<Math.abs(dy)){dx=dy;dy=0;}const unit=e.deltaMode===1?16:e.deltaMode===2?height:1;const horizontal=Math.abs(dx)>Math.abs(dy);if(!horizontal&&!s.captureWheel)return;e.preventDefault();skipIntro();interactedAt=performance.now();if(closeFocus())return;goal+=Math.max(-120,Math.min(120,(horizontal?dx:dy)*unit))*1.25;mode='wheel';wheelAt=performance.now();start();};
+const onKeyDown=e=>{const s=settingsRef.current;if(!s)return;const m=metrics(s);if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();skipIntro();closeFocus();interactedAt=performance.now();stepFn(m,1);}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();skipIntro();closeFocus();interactedAt=performance.now();stepFn(m,-1);}else if(e.key==='Home'){e.preventDefault();closeFocus();goTo(m,0);}else if(e.key==='End'){e.preventDefault();closeFocus();goTo(m,slots.length-1);}else if(e.key==='Escape'){if(closeFocus())e.preventDefault();}else if(e.key==='Enter'||e.key===' '){e.preventDefault();if(closeFocus()||activeIndex<0)return;callbacksRef.current.onSelect?.(activeIndex,itemsRef.current[activeIndex]);if(s.focusOnClick)openFocus(activeIndex);}};
+const onFocus=()=>{hasFocus=true;},onBlur=()=>{hasFocus=false;},onVisibility=()=>{if(!document.hidden)start();};
+container.addEventListener('pointerdown',onPointerDown);container.addEventListener('pointermove',onPointerMove);container.addEventListener('pointerup',onPointerUp);container.addEventListener('pointerleave',onPointerLeave);container.addEventListener('pointercancel',onPointerCancel);container.addEventListener('wheel',onWheel,{passive:false});container.addEventListener('keydown',onKeyDown);container.addEventListener('focus',onFocus);container.addEventListener('blur',onBlur);document.addEventListener('visibilitychange',onVisibility);
+const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(container);
+const intersectionObserver=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;start();});intersectionObserver.observe(container);
+engineRef.current={wake:()=>{dirty=true;start();},setItems};
+resize();setItems(itemsRef.current);
+return()=>{alive=false;visible=false;engineRef.current=null;cancelAnimationFrame(raf);resizeObserver.disconnect();intersectionObserver.disconnect();container.removeEventListener('pointerdown',onPointerDown);container.removeEventListener('pointermove',onPointerMove);container.removeEventListener('pointerup',onPointerUp);container.removeEventListener('pointerleave',onPointerLeave);container.removeEventListener('pointercancel',onPointerCancel);container.removeEventListener('wheel',onWheel);container.removeEventListener('keydown',onKeyDown);container.removeEventListener('focus',onFocus);container.removeEventListener('blur',onBlur);document.removeEventListener('visibilitychange',onVisibility);slots.forEach(s=>s.dispose());slots=[];gl.getExtension('WEBGL_lose_context')?.loseContext();if(canvas.parentNode)canvas.parentNode.removeChild(canvas);};},[]);
+const current=list[active]||list[0],label=current?current.title||current.alt||`Image ${active+1}`:'';
+return h('div',{ref:containerRef,className:`flex-carousel ${className}`.trim(),style:{...style,'--flex-carousel-half':`${Math.min(Math.max(cardHeight,.05),1)*50}%`},role:'region','aria-roledescription':'carousel','aria-label':'Image carousel',tabIndex:0},
+  captions&&current&&revealed&&h('div',{className:'flex-carousel__caption','aria-hidden':'true'},
+    h('span',{key:active,className:'flex-carousel__title'},current.title||current.alt,current.subtitle&&h('span',{className:'flex-carousel__subtitle'},current.subtitle)),
+    h('span',{className:'flex-carousel__count','data-hidden':focusOpen?'':undefined},h(Digits,{value:active+1}),h('span',{className:'flex-carousel__slash'},'/'),h('span',null,String(list.length).padStart(2,'0')))),
+  h('div',{className:'flex-carousel__live','aria-live':'polite','aria-atomic':'true'},`${label}, ${active+1} of ${list.length}`));};
+function makeLogoBadge(ticker,color){const n=ticker.length,fs=n>5?11:n>4?13:n>3?15:n>2?19:23;const svg='<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84"><defs><radialGradient id="g" cx="38%" cy="30%"><stop offset="0" stop-color="rgba(255,255,255,.28)"/><stop offset="1" stop-color="rgba(0,0,0,.18)"/></radialGradient></defs><circle cx="42" cy="42" r="41" fill="'+color+'"/><circle cx="42" cy="42" r="41" fill="url(#g)"/><text x="42" y="43" font-family="Inter,sans-serif" font-size="'+fs+'" font-weight="700" fill="rgba(255,255,255,.95)" text-anchor="middle" dominant-baseline="middle" letter-spacing="1">'+ticker+'</text></svg>';return 'data:image/svg+xml,'+encodeURIComponent(svg);}
+function makeTokenImg(c1,c2){const W=1200,H=900,cv=document.createElement('canvas');cv.width=W;cv.height=H;const ctx=cv.getContext('2d');const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,c1);bg.addColorStop(1,c2);ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);const rg=ctx.createRadialGradient(W*.38,H*.3,0,W*.38,H*.3,W*.55);rg.addColorStop(0,'rgba(255,255,255,.18)');rg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);for(let i=1;i<=5;i++){ctx.beginPath();ctx.arc(W*.5,H*.5,i*140,0,Math.PI*2);ctx.strokeStyle=`rgba(255,255,255,${Math.max(0,.065-i*.012)})`;ctx.lineWidth=1;ctx.stroke();}ctx.beginPath();ctx.arc(W*.72,H*.28,180,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=80;ctx.stroke();return cv.toDataURL('image/png');}
+const TOKENS=[
+{id:'qnt',c1:'#C8982A',c2:'#0E0600',title:'QNT',subtitle:'$149 · $2.17B',logo:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gKgSUNDX1BST0ZJTEUAAQEAAAKQbGNtcwQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwQVBQTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWxjbXMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAtkZXNjAAABCAAAADhjcHJ0AAABQAAAAE53dHB0AAABkAAAABRjaGFkAAABpAAAACxyWFlaAAAB0AAAABRiWFlaAAAB5AAAABRnWFlaAAAB+AAAABRyVFJDAAACDAAAACBnVFJDAAACLAAAACBiVFJDAAACTAAAACBjaHJtAAACbAAAACRtbHVjAAAAAAAAAAEAAAAMZW5VUwAAABwAAAAcAHMAUgBHAEIAIABiAHUAaQBsAHQALQBpAG4AAG1sdWMAAAAAAAAAAQAAAAxlblVTAAAAMgAAABwATgBvACAAYwBvAHAAeQByAGkAZwBoAHQALAAgAHUAcwBlACAAZgByAGUAZQBsAHkAAAAAWFlaIAAAAAAAAPbWAAEAAAAA0y1zZjMyAAAAAAABDEoAAAXj///zKgAAB5sAAP2H///7ov///aMAAAPYAADAlFhZWiAAAAAAAABvlAAAOO4AAAOQWFlaIAAAAAAAACSdAAAPgwAAtr5YWVogAAAAAAAAYqUAALeQAAAY3nBhcmEAAAAAAAMAAAACZmYAAPKnAAANWQAAE9AAAApbcGFyYQAAAAAAAwAAAAJmZgAA8qcAAA1ZAAAT0AAACltwYXJhAAAAAAADAAAAAmZmAADypwAADVkAABPQAAAKW2Nocm0AAAAAAAMAAAAAo9cAAFR7AABMzQAAmZoAACZmAAAPXP/bAEMABQMEBAQDBQQEBAUFBQYHDAgHBwcHDwsLCQwRDxISEQ8RERMWHBcTFBoVEREYIRgaHR0fHx8TFyIkIh4kHB4fHv/AAAsIADIAMgEBEQD/xAAcAAACAwEAAwAAAAAAAAAAAAAACAUGBwIBBAn/xAAzEAABAwMDBAEBBgUFAAAAAAABAgMEAAUGBxESCCExQRNRFBUjQmFyFyQyM2KCkbHD0//aAAgBAQAAPwBy69K/XSLZLLNu80PmNDYU+78LKnV8Ujc7ISCpR29AUq+RdbOOx78wxYsPuE61h0CRJkvpZdKPZbbAUN/Y5KG/jt5pmcEyyxZti8PI8cnImW+WndCx2UkjyhQ8pUD2IPipsKBJAIJHn9K80UUUiXWpoIcbmyNRMOhbWSQvlc4bKe0JxR/upA8NKJ7j8qj9D2pHRzqXkuFakR7Jb4NwvFovLqW5tuitqcWk+BIQkeFIHn0Ugg+ARMZTrTm2FdVF9yd5m5W6G7cEsS7TKQpAfhN7No3Qe3LgOSVj2exIJB+hLLiHWkOoPJC0hST9QfFd1QtfNQHNMdMrhl7NrTc3YzjLaI6nfjSS44EblQBIA338UqMzrbzJRP2PDrA19Pldec/4Kar156w9TbnGfiO2fEkxX21NusqgOOJWhQ2KVBbhBBHYgim96a8TxGxaW2G8Y3YodvfvNtjzJjraSXHFuIC1ArUSriFE7J32A8VJ6z6b4nqBjD7WQ2WPMlRWVuQ5G3F5lYBICVjvxJA3T4P0qmdJOsd21cx68O3q126DLtTzLX8lzDa0LQSDxUVEbFJHmtvqi69YI7qTpVeMPjTGoUmaGlMvupKkIW26lwbgd9jx23Hjf3SiK6J9RN+2T4rt+rkj/wAq6b6J9QAoF3KcXSPfFT5/6xWzdP2uWmdqx63abXPKGY1xsSPu1M2Sj4ok34yUhxpwnYJPbbnxJ+lXfXnW/ENL8eDsp9q6XeYzyg21h0FTwI7LWob8G/8AL3+UGoLozwbFsd00ayvGpNzdOUMMyJTctxCksuN80qQjikdgorG53J2FbnRRWJdZWpH8P9IpUeDI+O9X3lBhcTspCSPxXR+1J2B9KWmkA0lwa7ajZ7bcUs6SHZTm7zxG6Y7I7rcV+iR/udh7ppep/pmlylYi7phZ/l+Fhu0TGeYTslI/DkuKP+oLV+2mZ0bwlnTvTWy4czKVL+72SHH1Db5HFqK1kD0OSjsPQ2q3UUUsHVJ0+59qxnbV8teS2Vq3RoqI8WHM+Vss+1ndKVAlSjvv27AD1V86YdEIWkFglKlSWLjkNwI+2S20EIQgf0tN79+IPck7FR9dhWx0UUUUUUUUV//Z'},
+{id:'sol',c1:'#9945FF',c2:'#06000F',title:'SOL',subtitle:'$72 · $34.2B',logo:'data:image/png;base64,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'},
+{id:'link',c1:'#2A5BC8',c2:'#000A1A',title:'LINK',subtitle:'$9 · $5.3B',logo:'data:image/png;base64,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'},
+{id:'hbar',c1:'#00B2A9',c2:'#001514',title:'HBAR',subtitle:'$0.09 · $2.9B',logo:null},
+{id:'sui',c1:'#6FBCF0',c2:'#001628',title:'SUI',subtitle:'$1.42 · $4.1B',logo:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gKgSUNDX1BST0ZJTEUAAQEAAAKQbGNtcwQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwQVBQTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWxjbXMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAtkZXNjAAABCAAAADhjcHJ0AAABQAAAAE53dHB0AAABkAAAABRjaGFkAAABpAAAACxyWFlaAAAB0AAAABRiWFlaAAAB5AAAABRnWFlaAAAB+AAAABRyVFJDAAACDAAAACBnVFJDAAACLAAAACBiVFJDAAACTAAAACBjaHJtAAACbAAAACRtbHVjAAAAAAAAAAEAAAAMZW5VUwAAABwAAAAcAHMAUgBHAEIAIABiAHUAaQBsAHQALQBpAG4AAG1sdWMAAAAAAAAAAQAAAAxlblVTAAAAMgAAABwATgBvACAAYwBvAHAAeQByAGkAZwBoAHQALAAgAHUAcwBlACAAZgByAGUAZQBsAHkAAAAAWFlaIAAAAAAAAPbWAAEAAAAA0y1zZjMyAAAAAAABDEoAAAXj///zKgAAB5sAAP2H///7ov///aMAAAPYAADAlFhZWiAAAAAAAABvlAAAOO4AAAOQWFlaIAAAAAAAACSdAAAPgwAAtr5YWVogAAAAAAAAYqUAALeQAAAY3nBhcmEAAAAAAAMAAAACZmYAAPKnAAANWQAAE9AAAApbcGFyYQAAAAAAAwAAAAJmZgAA8qcAAA1ZAAAT0AAACltwYXJhAAAAAAADAAAAAmZmAADypwAADVkAABPQAAAKW2Nocm0AAAAAAAMAAAAAo9cAAFR7AABMzQAAmZoAACZmAAAPXP/bAEMABQMEBAQDBQQEBAUFBQYHDAgHBwcHDwsLCQwRDxISEQ8RERMWHBcTFBoVEREYIRgaHR0fHx8TFyIkIh4kHB4fHv/bAEMBBQUFBwYHDggIDh4UERQeHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHv/AABEIADIAMgMBIgACEQEDEQH/xAAaAAEAAwEBAQAAAAAAAAAAAAAABAUGAwcI/8QAMBAAAQQBAwIDBAsAAAAAAAAAAQACAwQFBhEhEkETMWEHUVJxIzJjgZGhscHh8PH/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAgQFAQP/xAAmEQACAgECBQQDAAAAAAAAAAAAAQIRAyFBBBIxQlEFE0NxgdHw/9oADAMBAAIRAxEAPwD66REVoqBFxuWYKdWW1albFBE0vke7yaB3VfpjP0NQ0DboucAx5ZJG/h7D23HqOR/CmsU3BzS0W5B5IqSg3qy2REUCYREQBEUfIiU4+yIN/FML+jb4uk7fmiVujjdKzzvUuabqTVWNwo6hgje8GWXybZkbyW7+4cD79/cr3U+NsYa+NU4KAdcTA2/UYNm2IR3A+Jo/T05haSwuM1D7M8fSkLmPjLj4sf14pw47n58jjuFLwuXyuGzcOn9Tyx2GTtJp3wNhKB5tf67f077rdyNRft4fjtOL7ler/O+6pNdNMbGm1z5e+mpeHsv15vU0+LvVsnjoL9OTxIJ2B7D+x9R5KUsj7J9zpeVzARXdendXH2fVxt6b7rXLJ4rEsOaWNdEzU4fI8uKM3ugiIvA9giIgMhc07mMXlJ8lpO3XibZd12KNkfROd8TT2P4fPsq/J6c1RqqaqzUL8dj6ld5cBVJfI7cbHYngcf4Vv0V6HqGWFSSXMt61/vspy4HHK1b5Xtehwx9SvQpQ0qkYighYGRtHYBd0RUW23bLaSSpBERDoREQBERAEREAREQH/2Q=='},
+{id:'xlm',c1:'#3D9BE9',c2:'#001522',title:'XLM',subtitle:'$0.11 · $3.3B',logo:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAqCAQAAABbs8DMAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAEiElEQVR42qWYW0wUVxyHPwaWq0hV0vaNWzQQC0Xk5gWpVMGl1hhDYkHavjR906Z9aNKmqSFWNCHGlnJRUDSCUNtCqSJBa/qiAWNao0k1BVQEiqwKKqyAbYVtsjlZzj+7s7uN37yQOefMb/7fmTk7B/zAIIESqrnEMFPMMssUw1yimhISMHhhIiignj6e4fBwzNBHPQVE4I0FeCGYQjp4isPH8ZQOrATjiZco5RymxHOICeTFBrlGN91cYxC7aLNTyytIoijmV/7GgQkb+F27hI02drGOOBYTSSSLiSWHnbQyqnr08QXRzLOQ7VxQkufwgEEJI66AAfbyOsEmQlPYSzdfEs88kRRxXsyiGwGUMqYap2ngNXwRJSZ5G13MaAE3KcONQmyqeYQPCMV/IthKJ9NawJ98TixuJHFDdbhFwf8K2EIHU2qsmiXiPXdtUV2G2Ii/hLOZ0yKgn90kYMIOZdNOKf4RRiHt4l26TRlLxSyJ243msnrkvsGCb0LZRJt4X+7wFctEjW/TgR2N9/nX2fUGsX4EbOQHJrWAAcpJFAFv8bOqUSu803lilo/xTghvckqsBoPsJ0lItPKTVqOLlYyrpyIGc4JZTwtPtIAhKlguaiygVUgcwcUu5pynajBMA3I5yWNt+DAHSCZgvkY3iaPsIxlFIE3Ok/9QhCcs5NDII3F/B0khQEj8DrmkDpIvl4YrKjnRQ8BajjOuDb5HJakYQmKzLlHN7qcIYhl0NlxlETpBrKaBMSGgijQMIbFJSLSpeibIQJCiLtRFCPMKsznCQzG8hnQMIfEEUuLXZHDB+fcYKQgyVXorgSogk8M80IY/4DAZBGo1ruEYUuK3rMAAWmUl7iFgkE4t97XhD6knSwSs4qiQaKPaJTGQNhNd6p5+IZsqbNrwMY6yiiBNYhb1QuJ9aknXbiGEc2pkMoIsVcmkUDTOcdaIgAw3iXVkEojOIq462+4Sg+Az5nCI4xEnyMECCoOV1GATEo+QTRAgSVS//FeIwkUAVoZFwGOayCVYC0ijilEhsYHVrgBJkVpoGzFQrKBCTPITmlkvAlKp5B5S4loseMagVv1g7ASFEDDJ92wgRKsxhYOMCImNrMOCOTH0q1rTQKEF/Eg+oVpAMgcYFhJP8gbBeOcTZp29zxImQ+y0UqAFwHIqGBISW8jzGQBx3FQL7XtoTNCOVU8lif0MagETnBISzbFQqZ7SHqLRyCNcPH7lDOAwkeiLd7Grr/0STFjGHu6Ij+g2NvkdAPmuGWwmHA8spYxb4gu+nULC8B8rt9XYP0jEjQR2068FTHGazYTjP6F86HqTRrHiRjm9IqCDLUSIbYwvkjnGtGup2UEAINECpulkKwuExD1cptzL1iGVfdx1XeEv3sEAs5AZutgmAl6mzGV51LUJWkIkkSwhjlw+ol2sF7+RhwkOnnGeIiKRvMoh7Mjt3BDX6aGH6wwh95IT1BKHKWfZzkITGVbOqCBvh50zWLHghXC8EUE+dfQyY7LF7qWOfCJ4YQziKaaKi05Jz3nuFHeRKoqJ9+efBf8Bn4gBuKbzPzwAAAAASUVORK5CYII='},
+{id:'xdc',c1:'#2FAD66',c2:'#00180C',title:'XDC',subtitle:'$0.045 · $650M',logo:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAJQ0lEQVR42s1aC1RVZRaehzPNNKtZM9M8mqlpVbesKDXJ1MzSWmpopogiWKTmKx9pvonKB9fLvXB5wwV5C4jgFbzCFVCzVpLZwxa9LLMoyxdJPiJTEBB2397dn+ImyTmXwH+tbx0459xz9vfvvf/9+M9vOnNsKyvpAfwT8AKGAr5AoAu+rnNernt6ePq+zhb+H8AQIBiwA5Xby0uO7ih31u7Y5qx7cZuzwYU6/F+L80dxvRL3FQCLgYHAVd0l/B+AvoAReBuCnYWQhCOVlGyhfHshpWYXUGxKHoUn5pI5IYcibLmUkLaBMtfbaVPRZirdWkwgxajFMyqAhcCNwG+7gsDvXTOYBXzNguAoglsg7IyQZPKZGU0DAi3Ua5yJbhtjpJ6jjXTL6FDq+aiRbh+7hvqMD6PBQRE0fn4cLTGlU8q6AnKCPCaiGRNRheetAK77NUlcD0QqAludxTLDU5cn0b2PhYugN41cLTCMCiXDI6F0888h124a9eN9vf1MNGZOLBljs2mzw8EaasE73gUCgD92JoHfASNdtt9SVloiBCYsiKc7MetKIAipB0IYz5CJeHhGNJuimB2bK94ZB/yrM0j8yWW7JzFTYkLTYT69/FwEWJjOg2jKa+waaNlGBfYipZ2tgMETElcCYUD9dvhBXGoePTg1kmdfgwZ0aUieP3x6lPiPyw93AT31kLgCMAEN5TCllVFZ1HdCGM+YDuH0a2fQ4+FixjAzJrNT0yLAyx8wH6hjEsGWDLrDd41OLXhOZiAWkqSMfKWZXOCqjhIZBtQAtCIyy41E95AZOsVKORs2MZlGyLWkIyT+A+xm9hzM7oI5uZHoLjISd7ZscbCZHeNYdikiIbzE5m8shGNblU9cDpCguiwsXflLEXBleyRuAarYL2Y+l9yNmmg/kN4TYKaM3I1sYnWQ1a9dbbBJJWfmcxqhmciNiCs3+KwStK9JCX64dxUD79BuYpOX2aistJi1Ug78xZ3E1cDbfEPQ0kR+mZYXSFT2W5ROC8KLaIWtlHxmJ1/sGSL4g9MTyH9JJvk+k0beEyM0kZGUZryJJ5u18h1kHuFOZDgunMtCZurtb9ZlVjG5L1NzSwvx2L5nP93px89pO5v3TY6hyv1H6HxDE+3//Ct6aEaCRj8UjUp+V14mvpKqsmVFxAgiFGzO0JV2GCDMvUHR9N6BI0LkfGMTLY50sPm0uS/Zvluut4BwRNZO/p1OX7FQbr4sx1WczP40nyrjRG3cvDhlElohQs812elcfQPx+PCzatEAZlyuBS5fRydrzxIGtHKY+j8WqYjoQkhEJlJ/iSsTFJHrsKR9jCRNoigY682RUG+YqPDFd0iNxPwKEfYu/3B6Ze+ncq7ufCPNC7O7a0uzeY2dGyulBPLAeEWkH5h9nQQHQubJAnn0Ap85SXSo+hTxqDl1hp1aFoCmC81yzrnrA/LyNXn0Hky25H7r8uxsXq+Bw9+YiA/n/uzow6dFqRs9ImNMKacLLsH3fngIxE63Ehu3MM0jbSjZkB0rItXg0IeJPAB8ARXRpsLNtBTl58BJYmKAPsfvOzGcXq2sIvdhK6jwiAAgGfEyc4bU/ZCbcRAYpOrwPoANmqkBJEFD/a0Coy7Hf/zZbPrmTB2p8fHB4zR4iji/Hv+TsDD7hbW0HqsVZFQ5V7zIDg7uJW1/YI8rnyEb0uchU6wgo928hs+y0bGaWiGhVirvgAjNK5UqslLXFSgCLNsOJuDecVFE/g9YVHPBXlhE81elcgas1TGlc5Jd8ib9ZIizh8Q7WVu6tPFMaBqbvqpLqoFQ4Fr3utwfeEeaC4gn1qRcGjYtUs2IDrPKEbNSwU+NfVXVNDAoWpdWcIRMUWS1tTYnuJ6vBAKBPzORocAJQOxvanASF1N6bFkE7DPB0hoz6hsaqbRiH505W99KypyxQ3fQhUwi25RlNvZj5eyngRFMpDfUdSwT6fEDkyNws6hTb3QX82lsukAYQuieSVba8vJ7pMZnR07Q0GnxuskYVN6GJl9atqT0TGQwE/k7AuLrOCndQYMH8WPIk/H0yZc1hCGmFRSSQ9ePWEljERSPnzzTZhn2tN65fcwaSkzfQJC9ilut4iewt7Xo8km7B2x1V3BpRXtIjRw4O9J7dR3pyi51SVazkXMk1dcdU/qhyFpfUMga2anqEtZKEND8JPwDD9dlUhOXZrUmhQePnqBhM6WuUbaNGBIrqXsrUedbIG/Urf2Rs6KlYQ4lWNuUuWj7H+aO+a2YRY2zIw7+0psHCENSk9Vry+Vl7mSDY4tb/edU7TkpsHCfLqeftzKFSTRA9jFtNmhwsgDrNBxeU9NBBBm/KIP27vuSPocjb3/tI7pbBb6LEN6KpPHI8dOSWMbnvQKtaHd2rFzKPz6C7P9zD4j+zBBBULMjIn2XVH0AagzkWb/UiZfrgyfHSCHWL9DK5qXZrEbPjqGSYjGr6ItF9qvhOG9k59m5AsNL9SR1l+7Mq20Fg0CzWYnph8XnEJcenFK110mZBVx4elVKF7SD9BdUxT9oI729fUjRCm6oQLWINqX4ymXV1/L2D6OkHzooh3nr71Ldxkdx47dYwXgj57LQjMFlUtxQZ4sBlnd0ozOWO44LVqeqVaXbgfpIanRYjINL24525K/BD17CysAJWndqQo7oLqoGNme7t2rd7OmNH37gcDjkQdBMl5oZ3iW7wrOeX6tIHOCSVu/22314wH6sEhJJvVR63wWrU7+JZnremqlqDw5893u6IToAD+K+sKzf9z8R8avtI2KSRAt+T8f9WNriYwK1Qnk61JZDIVazpjxknE9B3Xf7m+XFgKcmBA0IAfnYwBSXLckg3sXb08ltytlOIvNXYDFm6RCOsk8xd0UKawhCdPBjAbcPBuB3ko4HLEwgXu4d8AUQaIYW9rrK7yu0yKh1o7QXkIwXSuvIjkQzMmm9aGnUU9HoiVmwD+/2+QaO+F8Kt/6BFnwYECUlNb52kGY0+gSccjThee/j2YuAa7rqo5oeQF/AzC+HEPU4yjclyAq4BFUf1IhfWRJzKAb/s91v2FgoKQZ+q74/OY6/ncBU4L/6pfJcQ/8GHgaMQCmvMKwtCPkdapzzQAMf8f85nD+F6wdhOrtdexvTgDvEhC6nwQIB1wLewAiXnU8CAoDRwCDAwP7W2Z8zfQ/feXXb8GdqqAAAAABJRU5ErkJggg=='},
+{id:'hype',c1:'#FF4D00',c2:'#160400',title:'HYPE',subtitle:'$28.5 · $9.5B',logo:null},
+{id:'canton',c1:'#8B6914',c2:'#090700',title:'CANTON',subtitle:'TGE · TBD',logo:null},
+];
+(()=>{const carouselItems=TOKENS.map(t=>({src:makeTokenImg(t.c1,t.c2),alt:t.title,title:t.title,subtitle:t.subtitle}));
+const lEl=document.getElementById('carousel-logo-img');const firstTok=TOKENS[0];if(lEl){lEl.src=firstTok.logo||makeLogoBadge(firstTok.title,firstTok.c1);lEl.style.display='block';}
+function App(){return h(FlexCarousel,{items:carouselItems,preset:'liquid',intro:'rise',cardHeight:.74,gap:14,radius:8,squeeze:.18,focusOnClick:false,captions:true,captureWheel:true,onChange:(index)=>{if(window.showToken)window.showToken(TOKENS[index].id);const lEl=document.getElementById('carousel-logo-img');const tk=TOKENS[index];if(lEl){lEl.classList.add('fc-logo-out');setTimeout(()=>{lEl.src=tk.logo||makeLogoBadge(tk.title,tk.c1);lEl.style.display='block';lEl.classList.remove('fc-logo-out');},250);}}});}
+createRoot(document.getElementById('carousel-root')).render(h(App,null));})();
+</script>
+</body></html>
